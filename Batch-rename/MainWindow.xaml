@@ -6,19 +6,31 @@
         xmlns:local="clr-namespace:Batch_rename"
         mc:Ignorable="d"
         Title="Batch Rename" Height="450" Width="800">
+    <Window.Resources>
+        <local:WidthConverter x:Key="WidthConverter"/>
+    </Window.Resources>
     <Grid Background="Gray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
-        <ListView Grid.Column="1">
+
+        <ListView Name="FileView" Grid.Column="1">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="{Binding Converter}"/>
-                    <GridViewColumn Header="Full path"/>
-                    <GridViewColumn Header="New name"/>
+                    <GridViewColumn Header="File Name"/>
+                    <GridViewColumn Header="Full Path"/>
+                    <GridViewColumn Header="New Name"/>
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <Grid Grid.Column="1" Visibility="Hidden" SizeChanged="ListView_SizeChanged">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="FileName" Width="2*"/>
+                <ColumnDefinition x:Name="FullPath" Width="6*"/>
+                <ColumnDefinition x:Name="NewName" Width="2*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
     </Grid>
 </Window>

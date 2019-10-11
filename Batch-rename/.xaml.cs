@@ -24,5 +24,15 @@ namespace Batch_rename
         {
             InitializeComponent();
         }
+
+        private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Grid grid = sender as Grid;
+            GridView gv = FileView.View as GridView;
+            for (int i =0;i<grid.ColumnDefinitions.Count;++i)
+            {
+                gv.Columns[i].Width = grid.ColumnDefinitions[i].ActualWidth;
+            }
+        }
     }
 }
