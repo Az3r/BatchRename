@@ -1,0 +1,24 @@
+﻿<Window x:Class="Batch_rename.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Batch_rename"
+        mc:Ignorable="d"
+        Title="Batch Rename" Height="450" Width="800">
+    <Grid Background="Gray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Column="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="{Binding Converter}"/>
+                    <GridViewColumn Header="Full path"/>
+                    <GridViewColumn Header="New name"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
