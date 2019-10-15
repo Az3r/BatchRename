@@ -11,25 +11,50 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
-
-        <!--List view-->
-        <ListView Name="FileView" Grid.Column="1">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="File Name"/>
-                    <GridViewColumn Header="Full Path"/>
-                    <GridViewColumn Header="New Name"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-
-        <!--List view helper grid, for sizing listview header-->
-        <Grid Grid.Column="1" Visibility="Hidden" SizeChanged="ListView_SizeChanged">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="FileName" Width="2*"/>
-                <ColumnDefinition x:Name="FullPath" Width="6*"/>
-                <ColumnDefinition x:Name="NewName" Width="2*"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+        
+        <!--Action section-->
+        <DockPanel Grid.Column="0" Grid.Row="0">
+            <TextBlock Text="Actions:" DockPanel.Dock="Left" VerticalAlignment="Bottom"/>
+            <Button DockPanel.Dock="Right">Add</Button>
+            <Button DockPanel.Dock="Right" HorizontalAlignment="Right">Remove</Button>
+        </DockPanel>
+        <ListBox Grid.Row="1" Grid.Column="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <TextBlock Text="{Binding}" DockPanel.Dock="Left"/>
+                        <Button Content="{Binding}" DockPanel.Dock="Right"/>
+                        <Button Content="{Binding}" DockPanel.Dock="Right"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <!--File Container-->
+        <DataGrid IsReadOnly="True" Grid.Column="1" Grid.RowSpan="2"
+                  AutoGenerateColumns="False" ItemsSource="{Binding Items}">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Height" Value="30"/>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="*" Header="Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Background="{Binding NameBackground}"
+                                    Orientation="Horizontal" VerticalAlignment="Stretch">
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="New Name" Width="*" Binding="{Binding PreviewNewName}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

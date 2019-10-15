@@ -1,0 +1,39 @@
+﻿<Window x:Class="Batch_rename.FunctionCreator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Batch_rename"
+        mc:Ignorable="d"
+        Title="Action Editor" Height="450" Width="800">
+    <Grid Background="Gray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <TextBlock DockPanel.Dock="Left" Margin="5"
+                Text="Action Name:" VerticalAlignment="Center"/>
+            <TextBox Name="tbActionName" Margin="10 0 0 0"
+                     Text="My Action" VerticalContentAlignment="Center"/>
+        </DockPanel>
+        <StackPanel Grid.Row="1" Name="ActionPanel" Margin="5" Orientation="Horizontal">
+            <TextBlock Text="Select type:" VerticalAlignment="Center"/>
+            <ComboBox>
+                <ComboBoxItem>Replace</ComboBoxItem>
+                <ComboBoxItem>Replace</ComboBoxItem>
+                <ComboBoxItem>Replace</ComboBoxItem>
+                <ComboBoxItem>Replace</ComboBoxItem>
+                <ComboBoxItem>Replace</ComboBoxItem>
+            </ComboBox>
+            <Button Click="OnAdd">Add</Button>
+            <Button Click="OnRemove">Remove</Button>
+        </StackPanel>
+        <StackPanel Name="stkFunction" Grid.Row="2" Margin="5">
+            
+        </StackPanel>
+
+
+    </Grid>
+</Window>
