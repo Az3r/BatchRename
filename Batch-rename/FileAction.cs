@@ -5,13 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Batch_rename
+namespace BatchRename
 {
-    class FileAction
+    public class FileAction
     {
-        public FileAction() {}
-        public delegate FileInfo HandlerDelegate(FileInfo target);
+        public FileAction() 
+        {
+            ActionHandler = new ActionDelegate((target) => target);
+        }
+        public async Task<SimpleFile> Execute(SimpleFile target)
+        {
+            Task task = new Task(() =>
+            {
+                ActionHandler?.Invoke(target);
+            });
+            await task;
+            return target;
+        }
+        public delegate SimpleFile ActionDelegate(SimpleFile target);
+        public ActionDelegate ActionHandler { get; set; }
         public string Name { get; set; }
-        public HandlerDelegate Handler { get; set; }
+
     }
 }

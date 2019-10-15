@@ -13,7 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
-namespace Batch_rename
+using Microsoft.Win32;
+namespace BatchRename
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -30,6 +31,7 @@ namespace Batch_rename
                 Items.Add(new FileViewModel(new FileInfo(name)));
             }
             DataContext = this;
+            
             //DirectoryInfo dirInfo = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Container"));
             //CreateFile(dirInfo.FullName, 100);
         }

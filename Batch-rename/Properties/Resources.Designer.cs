@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Batch_rename.Properties
+namespace BatchRename.Properties
 {
 
 

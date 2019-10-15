@@ -7,7 +7,7 @@ using System.IO;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows;
-namespace Batch_rename
+namespace BatchRename
 {
     public class FileViewModel : ICloneable
     {
