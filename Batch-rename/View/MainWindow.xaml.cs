@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BatchRename.Model;
+using BatchRename.ViewModel;
+using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using Microsoft.Win32;
-namespace BatchRename
+using System.Windows.Forms;
+namespace BatchRename.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -27,15 +18,19 @@ namespace BatchRename
             InitializeComponent();
             DataContext = this;
 
-            string container = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Container");
-            FileViewModel[] collection = FileViewModel.CreateArray(SimpleFile.CreateArray(Directory.GetFiles(container)));
-
-            FileItems = new ObservableCollection<FileViewModel>(collection);
-
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.ShowDialog(null);
             ActionItems = new ObservableCollection<ActionViewModel>()
             {
                 new ActionViewModel(new ReplaceAction("i", "@"))
             };
+
+            ReplaceAction action = new ReplaceAction("0b5", "@");
+
+            string container = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Container");
+            FileViewModel[] collection = FileViewModel.CreateArray(BatchFile.CreateArray(Directory.GetFiles(container)), action);
+
+            FileItems = new ObservableCollection<FileViewModel>(collection);
 
             /* Create test files
             DirectoryInfo dirInfo = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Container"));
@@ -57,5 +52,10 @@ namespace BatchRename
 
         public ObservableCollection<FileViewModel> FileItems { get; private set; }
         public ObservableCollection<ActionViewModel> ActionItems { get; private set; }
+
+        private void OnExecute(object sender, RoutedEventArgs e)
+        {
+            //Parallel.ForEach(FileItems, (item) => item.Rename());
+        }
     }
 }

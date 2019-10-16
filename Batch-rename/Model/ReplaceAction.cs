@@ -4,19 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-namespace BatchRename
+namespace BatchRename.Model
 {
     public sealed class ReplaceAction : FileAction
     {
-        public ReplaceAction(string oldValue, string newValue)
+        public ReplaceAction()
         {
             Name = "Replace";
-            OldStr = oldValue;
-            NewStr = newValue;
-
             ActionHandler = new ActionDelegate(Replace);
         }
-        private void Replace(SimpleFile target)
+        public ReplaceAction(string oldValue, string newValue) : this()
+        {
+            OldStr = oldValue;
+            NewStr = newValue;
+        }
+        private void Replace(BatchFile target)
         {
             string newName = target.Name.Replace(OldStr, NewStr);
             target.FullPath = Path.Combine(target.Parent, newName);

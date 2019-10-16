@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BatchRename
+namespace BatchRename.View
 {
     public partial class ReplaceControl : UserControl
     {

@@ -19,10 +19,9 @@
         <DockPanel Grid.Column="0" Grid.Row="0">
             <TextBlock Text="Actions:" DockPanel.Dock="Left" VerticalAlignment="Bottom"/>
             <Button DockPanel.Dock="Right" Content="Add"/>
-            <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Content="Remove"
-                    Command="ApplicationCommands.Delete" CommandTarget="{Binding ElementName=lbActions, Path=SelectedItem}"/>
+            <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Content="Remove"/>
         </DockPanel>
-        <ListBox Name="lbActions" Grid.Row="1" Grid.Column="0" SelectionMode="Single"
+        <ItemsControl Name="lbActions" Grid.Row="1" Grid.Column="0"
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding ActionItems}">
             <ItemsControl.ItemTemplate>
@@ -34,12 +33,13 @@
                     </DockPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ListBox>
+        </ItemsControl>
 
         <!--File Section-->
         <DockPanel Margin="5" Grid.Row="0" Grid.Column="1">
             <Button DockPanel.Dock="Right">Add</Button>
             <Button DockPanel.Dock="Right">Remove</Button>
+            <Button DockPanel.Dock="Left" Click="OnExecute">Execute</Button>
         </DockPanel>
         <DataGrid Grid.Column="1" Grid.Row="1"
                   AutoGenerateColumns="False" IsReadOnly="True" 

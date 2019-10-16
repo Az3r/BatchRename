@@ -6,8 +6,8 @@ namespace Testing
     {
         static void Main(string[] args)
         {
-            string path = "D:\\Hello\\";
-            Console.WriteLine(Path.GetDirectoryName(path));
+            string path = "\\\\\\";
+            Console.WriteLine(Path.GetDirectoryName(Path.GetDirectoryName(path)));
             Console.WriteLine(Directory.GetParent(path));
             Console.WriteLine(Path.GetFileName(path) == string.Empty) ;
             Console.WriteLine(Path.IsPathRooted("\\World"));

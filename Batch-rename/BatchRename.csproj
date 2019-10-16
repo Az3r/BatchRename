@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\IBatchPath.cs" />
+    <Compile Include="Model\BatchDirectory.cs" />
+    <Compile Include="ViewModel\ExecuteFile.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -63,7 +67,7 @@
     <Compile Include="View\ReplaceControl.xaml.cs">
       <DependentUpon>ReplaceControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\SimpleFile.cs" />
+    <Compile Include="Model\BatchFile.cs" />
     <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
