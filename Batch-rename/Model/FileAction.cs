@@ -11,7 +11,8 @@ namespace BatchRename
     {
         public FileAction() 
         {
-            ActionHandler = new ActionDelegate((target) => target);
+            Name = "Action";
+            ActionHandler = new ActionDelegate((target) => { });
         }
         public async Task<SimpleFile> Execute(SimpleFile target)
         {
@@ -22,9 +23,9 @@ namespace BatchRename
             await task;
             return target;
         }
-        public delegate SimpleFile ActionDelegate(SimpleFile target);
+        public delegate void ActionDelegate(SimpleFile target);
         public ActionDelegate ActionHandler { get; set; }
         public string Name { get; set; }
-
     }
+
 }
