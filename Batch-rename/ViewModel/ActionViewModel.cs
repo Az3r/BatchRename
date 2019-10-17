@@ -8,12 +8,12 @@ namespace BatchRename.ViewModel
 {
     public class ActionViewModel
     {
-        public ActionViewModel(FileAction action)
+        public ActionViewModel(BaseAction action)
         {
              TxtName = action.Name;
         }
 
-        public static ActionViewModel[] CreateArray(FileAction[] collection)
+        public static ActionViewModel[] CreateArray(BaseAction[] collection)
         {
             ActionViewModel[] array = new ActionViewModel[collection.Length];
             for (int i = 0; i < collection.Length; ++i)

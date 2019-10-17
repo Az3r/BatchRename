@@ -2,6 +2,7 @@
 using BatchRename.ViewModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,8 +19,6 @@ namespace BatchRename.View
             InitializeComponent();
             DataContext = this;
 
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.ShowDialog(null);
             ActionItems = new ObservableCollection<ActionViewModel>()
             {
                 new ActionViewModel(new ReplaceAction("i", "@"))
@@ -28,9 +27,13 @@ namespace BatchRename.View
             ReplaceAction action = new ReplaceAction("0b5", "@");
 
             string container = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Container");
-            FileViewModel[] collection = FileViewModel.CreateArray(BatchFile.CreateArray(Directory.GetFiles(container)), action);
 
-            FileItems = new ObservableCollection<FileViewModel>(collection);
+            string[] files = Directory.GetFiles(container);
+            List<BatchFile> collection = new List<BatchFile>();
+            foreach (string file in files)
+                collection.Add(new BatchFile(file));
+
+            FileItems = new ObservableCollection<FileViewModel>(FileViewModel.CreateArray(collection.ToArray(), action));
 
             /* Create test files
             DirectoryInfo dirInfo = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Container"));
@@ -55,7 +58,13 @@ namespace BatchRename.View
 
         private void OnExecute(object sender, RoutedEventArgs e)
         {
-            //Parallel.ForEach(FileItems, (item) => item.Rename());
+            Parallel.ForEach(FileItems, (item) => item.Rename(true));
+        }
+
+        private void OnCreateAction(object sender, RoutedEventArgs e)
+        {
+            FunctionCreator actionEditor = new FunctionCreator();
+            actionEditor.ShowDialog();
         }
     }
 }

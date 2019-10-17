@@ -12,6 +12,11 @@ namespace Testing
             Console.WriteLine(Path.GetFileName(path) == string.Empty) ;
             Console.WriteLine(Path.IsPathRooted("\\World"));
             Console.WriteLine(Path.Combine(path, "World"));
+            Console.WriteLine(nameof(TestEnum.ABD));
+        }
+        enum TestEnum
+        {
+            ABD = 1
         }
     }
 }

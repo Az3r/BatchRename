@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 using System.IO;
 namespace BatchRename.Model
 {
-    public class BatchDirectory : IBatchPath
+    public class BatchDirectory : PathInfo
     {
-        public BatchDirectory() { FullPath = string.Empty; }
-        public BatchDirectory(string path) { FullPath = path; }
+        public BatchDirectory() { FullName = string.Empty; }
+        public BatchDirectory(string path) { FullName = path; }
 
-        public bool Create(bool overwrite, out string error)
+        public override bool Create(bool overwrite, out string error)
         {
             error = string.Empty;
             if (overwrite)
             {
-                Directory.Delete(FullPath, true);
+                Directory.Delete(FullName, true);
             }
             else if (Exists())
             {
                 error = GetMessage(ErrorType.AlreadyExisted);
                 return false;
             }
-            Directory.CreateDirectory(FullPath);
+            Directory.CreateDirectory(FullName);
             return true;
         }
 
-        public bool Delete(out string error)
+        public override bool Delete(out string error)
         {
             error = string.Empty;
             if (!Exists())
@@ -40,11 +40,11 @@ namespace BatchRename.Model
                 error = GetMessage(ErrorType.DirectoryNotEmpty);
                 return false;
             }
-            Directory.Delete(FullPath);
+            Directory.Delete(FullName);
             return true;
         }
 
-        public bool DeleteAll(out string error)
+        public override bool DeleteAll(out string error)
         {
             error = string.Empty;
             if (!Exists())
@@ -52,11 +52,11 @@ namespace BatchRename.Model
                 error = GetMessage(ErrorType.NotExists);
                 return false;
             }
-            Directory.Delete(FullPath, true);
+            Directory.Delete(FullName, true);
             return true;
         }
 
-        public bool Move(string destination, out string error)
+        public override bool Move(string destination, out string error)
         {
             error = string.Empty;
 
@@ -67,31 +67,35 @@ namespace BatchRename.Model
             }
             else if(!Exists())
             {
+
                 error = GetMessage(ErrorType.NotExists);
                 return false;
             }
-            Directory.Move(FullPath, destination);
+            Directory.Move(FullName, destination);
             return true;
         }
         public bool IsEmpty()
         {
-            return !Directory.EnumerateFileSystemEntries(FullPath).Any();
+            return !Directory.EnumerateFileSystemEntries(FullName).Any();
         }
-        public string GetParent()
+        public override string GetParent()
         {
-            return Path.GetDirectoryName(Path.GetDirectoryName(FullPath));
+            return Path.GetDirectoryName(Path.GetDirectoryName(FullName));
         }
 
-        public bool Exists()
+        public override bool Exists()
         {
-            return Directory.Exists(FullPath);
+            return Directory.Exists(FullName);
+        }
+        public override string GetName()
+        {
+            return Directory.GetParent(FullName).Name;
         }
 
-        public bool Move(out string error)
+        public override PathInfo Clone()
         {
-            throw new NotImplementedException();
+            return new BatchDirectory() { FullName = this.FullName };
         }
-
         private string GetMessage(ErrorType i)
         {
             switch (i)
@@ -112,15 +116,18 @@ namespace BatchRename.Model
             NotExists = 1,
             DirectoryNotEmpty = 2
         }
-        public string Name => Directory.GetParent(FullPath).Name;
-        public string FullPath 
+        public override string FullName
         {
-            get => sPath;
+            get
+            {
+                return sPath;
+            }
             set
             {
                 sPath = value.Insert(value.Length - 1, "\\");
             }
         }
+
         private string sPath;
     }
 }

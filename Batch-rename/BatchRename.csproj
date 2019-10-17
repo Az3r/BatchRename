@@ -56,9 +56,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\IBatchPath.cs" />
+    <Compile Include="Model\PathInfo.cs" />
+    <Compile Include="Model\ChangeCaseAction.cs" />
     <Compile Include="Model\BatchDirectory.cs" />
     <Compile Include="ViewModel\ExecuteFile.cs" />
+    <Compile Include="View\ChangCaseControl.xaml.cs">
+      <DependentUpon>ChangCaseControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -68,6 +72,10 @@
       <DependentUpon>ReplaceControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\BatchFile.cs" />
+    <Page Include="View\ChangCaseControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -86,7 +94,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\FileAction.cs" />
+    <Compile Include="Model\BaseAction.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
     <Compile Include="View\ActionEditor.xaml.cs">
       <DependentUpon>ActionEditor.xaml</DependentUpon>

@@ -1,4 +1,4 @@
-﻿<Window x:Class="BatchRename.MainWindow"
+﻿<Window x:Class="BatchRename.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -18,7 +18,7 @@
         <!--Action section-->
         <DockPanel Grid.Column="0" Grid.Row="0">
             <TextBlock Text="Actions:" DockPanel.Dock="Left" VerticalAlignment="Bottom"/>
-            <Button DockPanel.Dock="Right" Content="Add"/>
+            <Button DockPanel.Dock="Right" Content="Add" Click="OnCreateAction"/>
             <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Content="Remove"/>
         </DockPanel>
         <ItemsControl Name="lbActions" Grid.Row="1" Grid.Column="0"
@@ -52,6 +52,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Width="*" Binding="{Binding TxtOldName}"/>
                 <DataGridTextColumn Header="Preview" Width="*" Binding="{Binding TxtNewName}"/>
+                <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Description}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

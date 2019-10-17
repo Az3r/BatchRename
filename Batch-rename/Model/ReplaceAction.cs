@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 namespace BatchRename.Model
 {
-    public sealed class ReplaceAction : FileAction
+    public sealed class ReplaceAction : BaseAction
     {
         public ReplaceAction()
         {
@@ -18,10 +18,10 @@ namespace BatchRename.Model
             OldStr = oldValue;
             NewStr = newValue;
         }
-        private void Replace(BatchFile target)
+        private void Replace(PathInfo target)
         {
-            string newName = target.Name.Replace(OldStr, NewStr);
-            target.FullPath = Path.Combine(target.Parent, newName);
+            string newName = target.GetName().Replace(OldStr, NewStr);
+            target.FullName = Path.Combine(target.GetParent(), newName);
         }
 
         public string OldStr { get; set; }

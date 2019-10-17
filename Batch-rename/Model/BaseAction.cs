@@ -3,9 +3,9 @@
     /// <summary>
     /// Apply action on specific <seealso cref="BatchFile"/> instance, does not change the instance itself
     /// </summary>
-    public class FileAction
+    public class BaseAction
     {
-        public FileAction() 
+        public BaseAction() 
         {
             Name = "Do Nothing";
             ActionHandler = new ActionDelegate((target) => { });
@@ -16,13 +16,13 @@
         /// </summary>
         /// <param name="target"></param>
         /// <returns> a new instance after applying action</returns>
-        public BatchFile Execute(BatchFile target)
+        public PathInfo Execute(PathInfo target)
         {
-            BatchFile result = target.Clone();
+            PathInfo result = target.Clone();
             ActionHandler?.Invoke(result);
             return result;
         }
-        public delegate void ActionDelegate(BatchFile target);
+        public delegate void ActionDelegate(PathInfo target);
         public ActionDelegate ActionHandler { get; set; }
         public string Name { get; set; }
     }
