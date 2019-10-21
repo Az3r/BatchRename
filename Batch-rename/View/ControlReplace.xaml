@@ -6,15 +6,15 @@
              xmlns:local="clr-namespace:BatchRename"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="800">
-    <Grid>
+    <Grid HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="0" Padding="5" Text="Name" VerticalContentAlignment="Center" IsReadOnly="True"/>
-        <TextBox  Grid.Column="1" Padding="5" Text="New Value" VerticalContentAlignment="Center"/>
-        <TextBox Grid.Column="2" Padding="5" Text="Old Value" VerticalContentAlignment="Center"/>
+        <TextBox Grid.Column="0" Padding="5" Text="{Binding Name, Mode=OneTime}" VerticalContentAlignment="Center" IsReadOnly="True"/>
+        <TextBox Grid.Column="1" Padding="5" Text="{Binding NewValue, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+        <TextBox Grid.Column="2" Padding="5" Text="{Binding OldValue, Mode=TwoWay}" VerticalContentAlignment="Center"/>
     </Grid>
 
 </UserControl>

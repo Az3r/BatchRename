@@ -4,130 +4,78 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using BatchRename.Shared;
+
 namespace BatchRename.Model
 {
-    public class BatchDirectory : PathInfo
+    public sealed class BatchDirectory : BatchPath
     {
-        public BatchDirectory() { FullName = string.Empty; }
-        public BatchDirectory(string path) { FullName = path; }
+        public BatchDirectory() { }
+        public BatchDirectory(string path) { SetFullName(path); }
 
-        public override bool Create(bool overwrite, out string error)
+        public override int Create(bool overwrite)
         {
-            error = string.Empty;
-            if (overwrite)
+            bool bExists = Exists();
+            if (bExists && !overwrite)
+            {
+                return Error.FOLDER_EXISTS;
+            }
+            else if (bExists && overwrite)
             {
                 Directory.Delete(FullName, true);
             }
-            else if (Exists())
-            {
-                error = GetMessage(ErrorType.AlreadyExisted);
-                return false;
-            }
             Directory.CreateDirectory(FullName);
-            return true;
+            return Error.SUCCESS;
         }
 
-        public override bool Delete(out string error)
+        public override int Delete()
         {
-            error = string.Empty;
             if (!Exists())
             {
-                error = GetMessage(ErrorType.NotExists);
-                return false;
+                return Error.FOLDER_NOT_FOUND;
             }
             else if (!IsEmpty())
             {
-                error = GetMessage(ErrorType.DirectoryNotEmpty);
-                return false;
+                return Error.FOLDER_NOT_EMPTY;
             }
             Directory.Delete(FullName);
-            return true;
+            return Error.SUCCESS;
         }
 
-        public override bool DeleteAll(out string error)
+        public override int DeleteAll()
         {
-            error = string.Empty;
             if (!Exists())
             {
-                error = GetMessage(ErrorType.NotExists);
-                return false;
+                return Error.FOLDER_NOT_FOUND;
             }
             Directory.Delete(FullName, true);
-            return true;
+            return Error.SUCCESS;
         }
 
-        public override bool Move(string destination, out string error)
+        public override int Move(string destination)
         {
-            error = string.Empty;
-
             if (Directory.Exists(destination))
             {
-                error = GetMessage(ErrorType.AlreadyExisted);
-                return false;
+                return Error.FOLDER_NOT_FOUND;
             }
             else if(!Exists())
             {
-
-                error = GetMessage(ErrorType.NotExists);
-                return false;
+                return Error.FOLDER_NOT_FOUND;
             }
             Directory.Move(FullName, destination);
-            return true;
+            return Error.SUCCESS;
         }
         public bool IsEmpty()
         {
             return !Directory.EnumerateFileSystemEntries(FullName).Any();
         }
-        public override string GetParent()
-        {
-            return Path.GetDirectoryName(Path.GetDirectoryName(FullName));
-        }
-
         public override bool Exists()
         {
             return Directory.Exists(FullName);
         }
-        public override string GetName()
-        {
-            return Directory.GetParent(FullName).Name;
-        }
-
-        public override PathInfo Clone()
+        public override BatchPath Clone()
         {
             return new BatchDirectory() { FullName = this.FullName };
         }
-        private string GetMessage(ErrorType i)
-        {
-            switch (i)
-            {
-                case ErrorType.AlreadyExisted:
-                    return "Directory has already existed";
-                case ErrorType.NotExists:
-                    return "Directory does not exist";
-                case ErrorType.DirectoryNotEmpty:
-                    return "Directory is not empty";
-                default:
-                    return string.Empty;
-            }
-        }
-        private enum ErrorType : int
-        {
-            AlreadyExisted = 0,
-            NotExists = 1,
-            DirectoryNotEmpty = 2
-        }
-        public override string FullName
-        {
-            get
-            {
-                return sPath;
-            }
-            set
-            {
-                sPath = value.Insert(value.Length - 1, "\\");
-            }
-        }
-
-        private string sPath;
     }
 }

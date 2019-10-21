@@ -5,94 +5,59 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.ComponentModel;
+using BatchRename.Shared;
+
 namespace BatchRename.Model
 {
     /// <summary>
     /// Containing simple information of a file or folder such as name, full path, whether it exists or not
     /// </summary>
-    public class BatchFile : PathInfo
+    public sealed class BatchFile : BatchPath
     {
-        private BatchFile() { FullName = string.Empty; }
-        public BatchFile(string path) { FullName = path; }
-
-        public override string GetParent()
-        {
-            return Path.GetDirectoryName(FullName);
-        }
-
+        public BatchFile() { }
+        public BatchFile(string path) { SetFullName(path); }
         public override bool Exists()
         {
             return File.Exists(FullName);
         }
 
-        public override bool Create(bool overwrite, out string error)
+        public override int Create(bool overwrite)
         {
-            error = string.Empty;
             if (overwrite) using (File.Create(FullName)) { }
             else if (Exists())
             {
-                error = GetMessage(ErrorType.AlreadyExisted);
-                return false;
+                return Error.FILE_EXISTS;
             }
-            return true;        
+            return Error.SUCCESS;        
         }
 
-        public override bool Delete(out string error)
+        public override int Delete()
         {
-            error = string.Empty;
             if (!Exists())
             {
-                error = GetMessage(ErrorType.NotExists);
-                return false;
+                return Error.FILE_NOT_FOUND;
             }
             File.Delete(FullName);
-            return true;
+            return Error.SUCCESS;
         }
 
-        public override bool DeleteAll(out string error)
+        public override int DeleteAll()
         {
-            return Delete(out error);
+            return Delete();
         }
 
-        public override bool Move(string destination, out string error)
+        public override int Move(string destination)
         {
-            error = string.Empty;
             if (File.Exists(destination))
             {
-                error = GetMessage(ErrorType.AlreadyExisted);
-                return false;
+                return Error.FILE_EXISTS;
             }
             File.Move(FullName, destination);
-            return true;
+            return Error.SUCCESS;
         }
-
-        private string GetMessage(ErrorType i)
-        {
-            switch (i)
-            {
-                case ErrorType.AlreadyExisted:
-                    return "File has already existed";
-                case ErrorType.NotExists:
-                    return "File does not exist";
-                default:
-                    return string.Empty;
-            }
-        }
-
-        public override string GetName()
-        {
-            return Path.GetFileName(FullName);
-        }
-        public override PathInfo Clone()
+        public override BatchPath Clone()
         {
             return new BatchFile() { FullName = this.FullName };
         }
-        private enum ErrorType
-        {
-            AlreadyExisted = 0,
-            NotExists = 1
-        }
-
-        public override string FullName { get; set; }
     }
 }

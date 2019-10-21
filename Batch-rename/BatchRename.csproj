@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,35 +57,45 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\PathInfo.cs" />
-    <Compile Include="Model\ChangeCaseAction.cs" />
+    <Compile Include="Model\BatchItem.cs" />
+    <Compile Include="Model\FunctionReplace.cs" />
+    <Compile Include="Shared\Error.cs" />
+    <Compile Include="Model\BatchFunction.cs" />
+    <Compile Include="Model\BatchPath.cs" />
+    <Compile Include="Model\FunctionChangeCase.cs" />
     <Compile Include="Model\BatchDirectory.cs" />
-    <Compile Include="ViewModel\ExecuteFile.cs" />
-    <Compile Include="View\ChangCaseControl.xaml.cs">
-      <DependentUpon>ChangCaseControl.xaml</DependentUpon>
+    <Compile Include="Shared\Notify.cs" />
+    <Compile Include="Shared\PathIsNotAbsoluteException.cs" />
+    <Compile Include="StringLibrary.cs" />
+    <Compile Include="ViewModel\Command\Command.cs" />
+    <Compile Include="ViewModel\Command\ItemAddCommand.cs" />
+    <Compile Include="ViewModel\Command\ItemExecuteAllCommand.cs" />
+    <Compile Include="ViewModel\Command\ItemExecuteSelectedCommand.cs" />
+    <Compile Include="ViewModel\Command\ItemRemoveCommand.cs" />
+    <Compile Include="ViewModel\ItemViewModel.cs" />
+    <Compile Include="View\Control\ActionDisplayControl.xaml.cs">
+      <DependentUpon>ActionDisplayControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="View\Control\ItemDisplayControl.xaml.cs">
+      <DependentUpon>ItemDisplayControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\ActionViewModel.cs" />
-    <Compile Include="Model\ReplaceAction.cs" />
-    <Compile Include="View\ReplaceControl.xaml.cs">
-      <DependentUpon>ReplaceControl.xaml</DependentUpon>
+    <Compile Include="View\Index.xaml.cs">
+      <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\BatchFile.cs" />
-    <Page Include="View\ChangCaseControl.xaml">
+    <Page Include="View\Control\ActionDisplayControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MainWindow.xaml">
+    <Page Include="View\Control\ItemDisplayControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ReplaceControl.xaml">
+    <Page Include="View\Index.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ActionEditor.xaml">
+    <Page Include="View\EditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -94,10 +105,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\BaseAction.cs" />
-    <Compile Include="ViewModel\FileViewModel.cs" />
-    <Compile Include="View\ActionEditor.xaml.cs">
-      <DependentUpon>ActionEditor.xaml</DependentUpon>
+    <Compile Include="View\EditorView.xaml.cs">
+      <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

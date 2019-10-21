@@ -12,22 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BatchRename.Model;
-namespace BatchRename.View
+
+namespace BatchRename.View.Control
 {
     /// <summary>
-    /// Interaction logic for ChangCaseControl.xaml
+    /// Interaction logic for ControlAction.xaml
     /// </summary>
-    public partial class ChangCaseControl : UserControl
+    public partial class ActionDisplayControl : UserControl
     {
-        public ChangCaseControl()
+        public ActionDisplayControl()
         {
             InitializeComponent();
-            DataContext = this;
-            CaseTypes = ChangeCaseAction.GetCaseTypes();
         }
-
-
-        public string[] CaseTypes { get; private set; }
     }
 }
