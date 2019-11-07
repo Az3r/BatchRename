@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BatchRename.Models;
 
-namespace BatchRename.Models
+namespace BatchRename.DataTypes
 {
     public sealed class FunctionReplace : BatchFunction
     {
         public FunctionReplace()
         {
-            Name = "Replace Function";
+            Name = "Replace";
             args = new object[2] { "from", "to" };
-            Handler = new StringDelegate((s, args) => Replace(s, args[0].ToString(), args[1].ToString()));
-        }
-        private string Replace(string str, string oldStr, string newStr)
-        {
-            return str.Replace(oldStr, newStr);
+            Handler = new StringDelegate((s, args) => s.Replace(args[0].ToString(), args[1].ToString()));
         }
 
         public string OldValue

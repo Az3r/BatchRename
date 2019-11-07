@@ -60,11 +60,12 @@
     <Compile Include="Commands\Commands.cs" />
     <Compile Include="DataTypes\ObservableHashSet.cs" />
     <Compile Include="Models\BatchItem.cs" />
-    <Compile Include="Models\FunctionReplace.cs" />
+    <Compile Include="DataTypes\FunctionMove.cs" />
+    <Compile Include="DataTypes\FunctionReplace.cs" />
     <Compile Include="Shared\Error.cs" />
     <Compile Include="Models\BatchFunction.cs" />
     <Compile Include="DataTypes\BatchPath.cs" />
-    <Compile Include="Models\FunctionChangeCase.cs" />
+    <Compile Include="DataTypes\FunctionChangeCase.cs" />
     <Compile Include="DataTypes\BatchDirectory.cs" />
     <Compile Include="Shared\Notify.cs" />
     <Compile Include="Shared\PathIsNotAbsoluteException.cs" />
@@ -78,6 +79,9 @@
     <Compile Include="Views\Controls\ItemDisplayControl.xaml.cs">
       <DependentUpon>ItemDisplayControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\NewCaseControl.xaml.cs">
+      <DependentUpon>NewCaseControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\ReplaceControl.xaml.cs">
       <DependentUpon>ReplaceControl.xaml</DependentUpon>
     </Compile>
@@ -90,6 +94,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\ItemDisplayControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\NewCaseControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,6 +154,12 @@
     <Content Include="Resources\Icons\keyboard_arrow_up-24px.svg" />
     <Content Include="Resources\Icons\star-24px.svg" />
     <Content Include="Resources\Icons\star_border-24px.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StringLibrary\StringLibrary.csproj">
+      <Project>{56a35060-2eb4-44ac-b267-312335dc3d20}</Project>
+      <Name>StringLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,5 +10,8 @@ namespace BatchRename.ViewModels
     {
         public EditorViewModel() { }
 
+
+
+
     }
 }

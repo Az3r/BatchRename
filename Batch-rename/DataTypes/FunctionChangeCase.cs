@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-namespace BatchRename.Models
+using BatchRename.Models;
+using BatchRename.
+namespace BatchRename.DataTypes
 {
     public sealed class FunctionChangeCase : BatchFunction
     {
@@ -13,7 +15,7 @@ namespace BatchRename.Models
         }
         public FunctionChangeCase()
         {
-            Name = "Change Case Function";
+            Name = "Change Case";
             args = new object[1] { StringCase.Capitalize };
             Handler = new StringDelegate((s, args) => ChangeCase(s, (StringCase)args[0]));
         }

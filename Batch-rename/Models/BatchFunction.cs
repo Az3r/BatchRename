@@ -11,10 +11,6 @@ using System.Windows;
 
 namespace BatchRename.Models
 {
-    /// <summary>
-    /// base class for <see cref="FunctionChangeCase"/>, <see cref="FunctionReplace"/>
-    /// </summary>
-    /// 
     [Serializable]
     public class BatchFunction : EventNotifier, ISerializable
     {
@@ -94,8 +90,8 @@ namespace BatchRename.Models
             }
         }
         protected object[] args;
-        protected StringDelegate Handler = new StringDelegate((s, objs) => s);  // do nothing and return s
         private string mName = string.Empty;
         private bool mFavorite = false;
+        protected StringDelegate Handler = new StringDelegate((s, objs) => s);  // do nothing and return s
     }
 }
