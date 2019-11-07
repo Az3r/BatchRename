@@ -26,6 +26,7 @@ namespace BatchRename.Views
         public ActionEditor()
         {
             Style = FindResource(typeof(Window)) as Style;
+            DataContext = ViewModel;
             InitializeComponent();
         }
 

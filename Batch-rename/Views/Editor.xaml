@@ -82,7 +82,7 @@
                 <TextBlock Style="{StaticResource TextBlockTemplate}"
                            Text="Select type:" />
                 <ComboBox Style="{StaticResource ComboBoxTemplate}"
-                        ItemsSource="{Binding ActionNames}">
+                        ItemsSource="{Binding Actions}">
                 </ComboBox>
                 <Button DockPanel.Dock="Right" Command="{x:Static ApplicationCommands.New}">Create</Button>
                 <Button DockPanel.Dock="Right" Command="{x:Static ApplicationCommands.Delete}">Remove</Button>
@@ -90,7 +90,7 @@
         </StackPanel>
 
         <DockPanel Grid.Row="2" Name="stkCommittedActions" LastChildFill="True" Margin="{StaticResource ControlMarginTop}">
-            <Border DockPanel.Dock="Top" BorderBrush="#111" BorderThickness="1" Background="#545454">
+            <Border DockPanel.Dock="Top" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="1" Background="#545454">
                 <TextBlock Style="{StaticResource TextBlockTemplate}" FontSize="14" Text="Preivew" TextAlignment="Center"></TextBlock>
             </Border>
             <Border VerticalAlignment="Top" Margin="{StaticResource ControlMarginTop}" Padding="{StaticResource ControlPadding}" BorderThickness="2" BorderBrush="#777" Height="100">

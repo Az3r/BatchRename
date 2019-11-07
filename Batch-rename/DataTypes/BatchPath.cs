@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using BatchRename.Shared;
+using StringLibrary;
 namespace BatchRename.DataTypes
 {
     /// <summary>
@@ -34,7 +35,7 @@ namespace BatchRename.DataTypes
         }
         protected virtual void SetFullName(string path)
         {
-            if (!IsPathAbsolute(path)) throw new PathIsNotAbsoluteException($"{path} is not an absolute path");
+            if (!IsPathAbsolute(path)) throw new PathIsNotAbsoluteException($"{path}");
             mFullName = path;
         }
         protected static bool IsPathAbsolute(string path)

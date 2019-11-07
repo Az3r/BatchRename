@@ -60,16 +60,17 @@
     <Compile Include="Commands\Commands.cs" />
     <Compile Include="DataTypes\ObservableHashSet.cs" />
     <Compile Include="Models\BatchItem.cs" />
-    <Compile Include="DataTypes\FunctionMove.cs" />
-    <Compile Include="DataTypes\FunctionReplace.cs" />
+    <Compile Include="Models\FunctionGUID.cs" />
+    <Compile Include="Models\FunctionMove.cs" />
+    <Compile Include="Models\FunctionNormalize.cs" />
+    <Compile Include="Models\FunctionReplace.cs" />
     <Compile Include="Shared\Error.cs" />
     <Compile Include="Models\BatchFunction.cs" />
     <Compile Include="DataTypes\BatchPath.cs" />
-    <Compile Include="DataTypes\FunctionChangeCase.cs" />
+    <Compile Include="Models\FunctionChangeFormat.cs" />
     <Compile Include="DataTypes\BatchDirectory.cs" />
     <Compile Include="Shared\Notify.cs" />
     <Compile Include="Shared\PathIsNotAbsoluteException.cs" />
-    <Compile Include="StringLibrary.cs" />
     <Compile Include="ViewModels\ActionExplorerViewModel.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
@@ -79,8 +80,8 @@
     <Compile Include="Views\Controls\ItemDisplayControl.xaml.cs">
       <DependentUpon>ItemDisplayControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\NewCaseControl.xaml.cs">
-      <DependentUpon>NewCaseControl.xaml</DependentUpon>
+    <Compile Include="Views\Controls\ChangeFormatControl.xaml.cs">
+      <DependentUpon>ChangeFormatControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\ReplaceControl.xaml.cs">
       <DependentUpon>ReplaceControl.xaml</DependentUpon>
@@ -89,6 +90,10 @@
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataTypes\BatchFile.cs" />
+    <Page Include="Views\Controls\FunctionDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Controls\ActionExplorerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -97,7 +102,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\NewCaseControl.xaml">
+    <Page Include="Views\Controls\ChangeFormatControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

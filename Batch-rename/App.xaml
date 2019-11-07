@@ -7,15 +7,8 @@
         
         <!--colors-->
         <SolidColorBrush x:Key="BackGroundColor" Color="#454545"/>
-
-        <ControlTemplate TargetType="TextBox" x:Key="Form">
-            <DockPanel>
-                <Label Content="{TemplateBinding Tag}" MinWidth="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <TextBox Grid.Column="1" VerticalContentAlignment="Center"
-                 Text="{TemplateBinding Text}" FontStyle="Italic"/>
-            </DockPanel>
-        </ControlTemplate>
-
+        <SolidColorBrush x:Key="BorderBrushColor" Color="#111"/>
+        
         <Style TargetType="Window">
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -51,7 +44,7 @@
                 </Button.Content>
             </Button>
         </ControlTemplate>
-        
+
         <ControlTemplate TargetType="Button" x:Key="BorderStarButton">
             <Button Background="{TemplateBinding Background}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <Button.Content >
@@ -59,10 +52,44 @@
                 </Button.Content>
             </Button>
         </ControlTemplate>
+        
         <Style TargetType="Button">
             <Setter Property="Padding" Value="5"/>
-            <Setter Property="Background" Value="#444"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0 1" EndPoint="0 0">
+                        <GradientStop Color="#333" Offset="0"/>
+                        <GradientStop Color="#454545" Offset="0.6"/>
+                        <GradientStop Color="#888" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0 1" EndPoint="0 0">
+                                <GradientStop Color="#000" Offset="0"/>
+                                <GradientStop Color="#333" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" Value="#454545"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Application.Resources>
 </Application>

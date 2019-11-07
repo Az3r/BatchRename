@@ -12,17 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using BatchRename.Models;
 namespace BatchRename.Views.Controls
 {
     /// <summary>
     /// Interaction logic for NewCaseControl.xaml
     /// </summary>
-    public partial class NewCaseControl : UserControl
+    public partial class ChangeFormatControl : UserControl
     {
-        public NewCaseControl()
+        public ChangeFormatControl()
         {
+            DataContext = ViewModel;
             InitializeComponent();
         }
+
+        public FunctionChangeFormat ViewModel { get; set; } = new FunctionChangeFormat();
     }
 }

@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BatchRename.Models;
-
-namespace BatchRename.DataTypes
+namespace BatchRename.Models
 {
     public sealed class FunctionReplace : BatchFunction
     {

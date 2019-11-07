@@ -89,9 +89,9 @@ namespace BatchRename.Models
                 NotifyPropertyChanged();
             }
         }
+        protected StringDelegate Handler = new StringDelegate((s, objs) => s);  // do nothing and return s
         protected object[] args;
         private string mName = string.Empty;
         private bool mFavorite = false;
-        protected StringDelegate Handler = new StringDelegate((s, objs) => s);  // do nothing and return s
     }
 }
