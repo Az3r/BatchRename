@@ -1,0 +1,60 @@
+﻿<Window x:Class="BatchRename.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BatchRename.Views.Controls"
+        mc:Ignorable="d"
+        Title="Batch Rename" Height="600" Width="1000">
+    
+    <Window.Resources>
+        <Style TargetType="TextBlock" x:Key="TextBlockMouseHover">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#0af"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="WrapPanel" x:Key="VerticalWrapPanel">
+            <Setter Property="Background" Value="#333"/>
+            <Setter Property="LayoutTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="90"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BackGroundColor}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Name="ActionCol" Width="3*"/>
+            <ColumnDefinition Name="SplitterCol" Width="5"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+
+        <!--Action section-->
+        <WrapPanel Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   Style="{StaticResource VerticalWrapPanel}">
+            <DockPanel Margin="5 5 0 0" LastChildFill="False">
+                <Rectangle DockPanel.Dock="Bottom" 
+                           Fill="#999" Height="5" />
+                <TextBlock DockPanel.Dock="Bottom" 
+                           Style="{StaticResource TextBlockMouseHover}" Text="Action Explorer"
+                           Mouse.MouseDown="OnExpand">
+                </TextBlock>
+            </DockPanel>
+        </WrapPanel>
+        <GridSplitter Grid.Column="2" Grid.RowSpan="2" Background="#999999" HorizontalAlignment="Stretch"/>
+
+        <local:ActionExplorerControl Grid.Column="1" Grid.RowSpan="2"/>
+        <local:ItemDisplayControl Grid.Column="3" Grid.Row="0" Grid.RowSpan="2"/>
+    </Grid>
+</Window>

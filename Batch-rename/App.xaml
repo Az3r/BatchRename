@@ -2,8 +2,67 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:BatchRename"
-             StartupUri="View/Index.xaml">
+             StartupUri="Views/Editor.xaml">
     <Application.Resources>
-         
+        
+        <!--colors-->
+        <SolidColorBrush x:Key="BackGroundColor" Color="#454545"/>
+
+        <ControlTemplate TargetType="TextBox" x:Key="Form">
+            <DockPanel>
+                <Label Content="{TemplateBinding Tag}" MinWidth="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox Grid.Column="1" VerticalContentAlignment="Center"
+                 Text="{TemplateBinding Text}" FontStyle="Italic"/>
+            </DockPanel>
+        </ControlTemplate>
+
+        <Style TargetType="Window">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+        </Style>
+
+        <Style TargetType="ContentControl">
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Label" BasedOn="{StaticResource {x:Type ContentControl}}">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <ControlTemplate TargetType="Button" x:Key="DownArrowButton">
+            <Button Background="{TemplateBinding Background}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    Command="{TemplateBinding Command}" CommandTarget="{TemplateBinding CommandTarget}" CommandParameter="{TemplateBinding CommandParameter}">
+                <Button.Content>
+                    <Path Fill="{TemplateBinding Foreground}" Data="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" Stretch="Uniform"/>
+                </Button.Content>
+            </Button>
+        </ControlTemplate>
+
+        <ControlTemplate TargetType="Button" x:Key="StarButton">
+            <Button Background="{TemplateBinding Background}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    Command="{TemplateBinding Command}">
+                <Button.Content>
+                    <Path Data="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" Fill="{TemplateBinding Foreground}" Stretch="Uniform"/>
+                </Button.Content>
+            </Button>
+        </ControlTemplate>
+        
+        <ControlTemplate TargetType="Button" x:Key="BorderStarButton">
+            <Button Background="{TemplateBinding Background}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                <Button.Content >
+                    <Path Data="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" Stroke="{TemplateBinding Foreground}" Stretch="Uniform"/>
+                </Button.Content>
+            </Button>
+        </ControlTemplate>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Background" Value="#444"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
     </Application.Resources>
 </Application>

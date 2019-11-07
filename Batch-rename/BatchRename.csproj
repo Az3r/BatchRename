@@ -57,45 +57,51 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\BatchItem.cs" />
-    <Compile Include="Model\FunctionReplace.cs" />
+    <Compile Include="Commands\Commands.cs" />
+    <Compile Include="DataTypes\ObservableHashSet.cs" />
+    <Compile Include="Models\BatchItem.cs" />
+    <Compile Include="Models\FunctionReplace.cs" />
     <Compile Include="Shared\Error.cs" />
-    <Compile Include="Model\BatchFunction.cs" />
-    <Compile Include="Model\BatchPath.cs" />
-    <Compile Include="Model\FunctionChangeCase.cs" />
-    <Compile Include="Model\BatchDirectory.cs" />
+    <Compile Include="Models\BatchFunction.cs" />
+    <Compile Include="DataTypes\BatchPath.cs" />
+    <Compile Include="Models\FunctionChangeCase.cs" />
+    <Compile Include="DataTypes\BatchDirectory.cs" />
     <Compile Include="Shared\Notify.cs" />
     <Compile Include="Shared\PathIsNotAbsoluteException.cs" />
     <Compile Include="StringLibrary.cs" />
-    <Compile Include="ViewModel\Command\Command.cs" />
-    <Compile Include="ViewModel\Command\ItemAddCommand.cs" />
-    <Compile Include="ViewModel\Command\ItemExecuteAllCommand.cs" />
-    <Compile Include="ViewModel\Command\ItemExecuteSelectedCommand.cs" />
-    <Compile Include="ViewModel\Command\ItemRemoveCommand.cs" />
-    <Compile Include="ViewModel\ItemViewModel.cs" />
-    <Compile Include="View\Control\ActionDisplayControl.xaml.cs">
-      <DependentUpon>ActionDisplayControl.xaml</DependentUpon>
+    <Compile Include="ViewModels\ActionExplorerViewModel.cs" />
+    <Compile Include="ViewModels\EditorViewModel.cs" />
+    <Compile Include="ViewModels\ItemViewModel.cs" />
+    <Compile Include="Views\Controls\ActionExplorerControl.xaml.cs">
+      <DependentUpon>ActionExplorerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Control\ItemDisplayControl.xaml.cs">
+    <Compile Include="Views\Controls\ItemDisplayControl.xaml.cs">
       <DependentUpon>ItemDisplayControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Index.xaml.cs">
+    <Compile Include="Views\Controls\ReplaceControl.xaml.cs">
+      <DependentUpon>ReplaceControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Index.xaml.cs">
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\BatchFile.cs" />
-    <Page Include="View\Control\ActionDisplayControl.xaml">
+    <Compile Include="DataTypes\BatchFile.cs" />
+    <Page Include="Views\Controls\ActionExplorerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Control\ItemDisplayControl.xaml">
+    <Page Include="Views\Controls\ItemDisplayControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Index.xaml">
+    <Page Include="Views\Controls\ReplaceControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EditorView.xaml">
+    <Page Include="Views\Index.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Editor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -105,8 +111,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="View\EditorView.xaml.cs">
-      <DependentUpon>EditorView.xaml</DependentUpon>
+    <Compile Include="Views\Editor.xaml.cs">
+      <DependentUpon>Editor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -133,6 +139,13 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\Icons\keyboard_arrow_down-24px.svg" />
+    <Content Include="Resources\Icons\keyboard_arrow_left-24px.svg" />
+    <Content Include="Resources\Icons\keyboard_arrow_right-24px.svg" />
+    <Content Include="Resources\Icons\keyboard_arrow_up-24px.svg" />
+    <Content Include="Resources\Icons\star-24px.svg" />
+    <Content Include="Resources\Icons\star_border-24px.svg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
