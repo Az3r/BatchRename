@@ -11,8 +11,15 @@ namespace BatchRename.Models
         public FunctionGUID()
         {
             Name = "GUID";
-            args = null;
-            Handler = new StringDelegate((s, args) => StringExtension.GetGUID());
+        }
+
+        public override string GetString(string src)
+        {
+            return StringExtension.GetGUID();
+        }
+        public string GetString()
+        {
+            return StringExtension.GetGUID();
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using BatchRename.ViewModels;
+using BatchRename.Views.Controls;
 using System.Runtime.CompilerServices;
 namespace BatchRename.Views
 {
@@ -33,14 +34,6 @@ namespace BatchRename.Views
         /*
          * Command events
          */
-        public void CanCreate(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-        public void Created(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
         private void CanSubmit(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -49,16 +42,6 @@ namespace BatchRename.Views
         {
             MessageBox.Show("Submitting!");
             Close();
-        }
-
-        private void Removed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
-        private void CanRemove(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
         }
         private void CanClose(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -85,10 +68,15 @@ namespace BatchRename.Views
         {
             Cursor = origin;
         }
+        private void OnChangedControl(object sender, SelectionChangedEventArgs e)
+        {
+            if (FunctionDisplayer == null || e.AddedItems?.Count == 0) return;
+            FunctionDisplayer.Child = ViewModel.CreateControl(e.AddedItems[0].ToString());
+        }
+
+
 
         public EditorViewModel ViewModel { get; private set; } = new EditorViewModel();
         private Cursor origin;
-
-
     }
 }

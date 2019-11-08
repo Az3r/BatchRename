@@ -9,19 +9,26 @@ namespace BatchRename.Models
     {
         public FunctionChangeFormat()
         {
-            Name = "Change Case";
-            args = new object[1] { StringFormat.None };
-            Handler = new StringDelegate((s, args) => s.ChangeFormat(Format));
+            Name = "Change Format";
+        }
+
+        public override string GetString(string src)
+        {
+            return src.ChangeFormat(format);
         }
 
         public StringFormat Format
         {
-            get => (StringFormat)Enum.Parse(typeof(StringFormat), args[0].ToString());
+            get => format;
             set
             {
-                args[0] = value;
+                format = (StringFormat) Enum.Parse(typeof(StringFormat), value.ToString());
                 NotifyPropertyChanged();
             }
         }
+
+        public string[] Formats => Enum.GetNames(typeof(StringFormat));
+
+        private StringFormat format;
     }
 }

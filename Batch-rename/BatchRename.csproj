@@ -83,6 +83,9 @@
     <Compile Include="Views\Controls\ChangeFormatControl.xaml.cs">
       <DependentUpon>ChangeFormatControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\MoveControl.xaml.cs">
+      <DependentUpon>MoveControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\ReplaceControl.xaml.cs">
       <DependentUpon>ReplaceControl.xaml</DependentUpon>
     </Compile>
@@ -90,7 +93,7 @@
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataTypes\BatchFile.cs" />
-    <Page Include="Views\Controls\FunctionDictionary.xaml">
+    <Page Include="Resources\Dictionaries\FunctionDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -103,6 +106,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\ChangeFormatControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\MoveControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,5 +173,6 @@
       <Name>StringLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

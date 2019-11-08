@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BatchRename.Models;
+using StringLibrary;
 namespace BatchRename.Views.Controls
 {
     /// <summary>
@@ -27,5 +28,19 @@ namespace BatchRename.Views.Controls
         }
 
         public FunctionChangeFormat ViewModel { get; set; } = new FunctionChangeFormat();
+
+        private void OnShowResult(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                tbResult.Text = ViewModel.GetString(tbInput.Text);
+                tbResult.IsEnabled = true;
+            }
+            catch (Exception)
+            {
+                tbResult.Text = "invalid input!";
+                tbResult.IsEnabled = false;
+            }
+        }
     }
 }

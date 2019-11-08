@@ -8,7 +8,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
-        Title="Editor" Height="400" Width="600" MouseLeftButtonDown="OnDragging" MouseLeftButtonUp="OnDragged">
+        Title="Editor" Height="450" Width="700" MouseLeftButtonDown="OnDragging" MouseLeftButtonUp="OnDragged">
 
     <Window.Resources>
         <sys:Double x:Key="TextWidth">100</sys:Double>
@@ -21,34 +21,26 @@
         <Thickness x:Key="ControlPadding" Left="{StaticResource padding}" Top="{StaticResource padding}" 
                    Right="{StaticResource padding}" Bottom="{StaticResource padding}"/>
         <Thickness x:Key="ControlMarginTop" Top="{StaticResource margin_top}"/>
+        <Thickness x:Key="ControlMarginLeft" Left="{StaticResource  margin}"/>
 
         <!--TextBlock template-->
         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" x:Key="TextBlockTemplate">
             <Setter Property="Width" Value="{StaticResource TextWidth}"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextAlignment" Value="Right"/>
         </Style>
         
         <!--TextBox template-->
         <Style TargetType="TextBox" x:Key="TextBoxTempalte">
-            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="{StaticResource ControlMarginLeft}"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
         </Style>
-        
-        <!--ComboBox template-->
-        <Style TargetType="ComboBox" x:Key="ComboBoxTemplate">
-            <Setter Property="Width" Value="100"/>
-            <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
-            <Setter Property="IsEditable" Value="False"/>
-            <Setter Property="IsTextSearchCaseSensitive" Value="False"/>
-            <Setter Property="IsTextSearchEnabled" Value="True"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-        
+       
         <!--Button template-->
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="ButtonTemplate">
             <Setter Property="Width" Value="80"/>
@@ -56,13 +48,13 @@
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{x:Static ApplicationCommands.New}" CanExecute="CanCreate" Executed="Created"/>
         <CommandBinding Command="{x:Static ApplicationCommands.Save}" CanExecute="CanSubmit" Executed="Submitted"/>
-        <CommandBinding Command="{x:Static ApplicationCommands.Delete}" CanExecute="CanRemove" Executed="Removed"/>
         <CommandBinding Command="{x:Static ApplicationCommands.Close}" CanExecute="CanClose" Executed="Canceled"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="F4" Modifiers="Alt" Command="{x:Static ApplicationCommands.Close}"/>
+        <KeyBinding Key="Esc" Command="{x:Static ApplicationCommands.Close}"/>
+        <KeyBinding Key="Return" Command="{x:Static ApplicationCommands.Save}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource BackGroundColor}">
         <Grid.RowDefinitions>
@@ -74,18 +66,16 @@
         <DockPanel Grid.Row="0" LastChildFill="True">
             <TextBlock DockPanel.Dock="Left" Style="{StaticResource TextBlockTemplate}"
                     Text="Action Name:"/>
-            <TextBox Name="tbActionName" Margin="10 0 0 0" Style="{StaticResource TextBoxTempalte}"
+            <TextBox Name="tbActionName" Style="{StaticResource TextBoxTempalte}"
                      Text="My Action"/>
         </DockPanel>
         <StackPanel Name="stkActionSelection" Grid.Row="1" Margin="0 5 0 5">
             <WrapPanel>
                 <TextBlock Style="{StaticResource TextBlockTemplate}"
-                           Text="Select type:" />
-                <ComboBox Style="{StaticResource ComboBoxTemplate}"
-                        ItemsSource="{Binding Actions}">
+                           Text="Select type:"/>
+                <ComboBox Name="cbFunctions" Style="{StaticResource DarkComboBox}"
+                        ItemsSource="{Binding FunctionNames}" SelectionChanged="OnChangedControl">
                 </ComboBox>
-                <Button DockPanel.Dock="Right" Command="{x:Static ApplicationCommands.New}">Create</Button>
-                <Button DockPanel.Dock="Right" Command="{x:Static ApplicationCommands.Delete}">Remove</Button>
             </WrapPanel>
         </StackPanel>
 
@@ -93,15 +83,15 @@
             <Border DockPanel.Dock="Top" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="1" Background="#545454">
                 <TextBlock Style="{StaticResource TextBlockTemplate}" FontSize="14" Text="Preivew" TextAlignment="Center"></TextBlock>
             </Border>
-            <Border VerticalAlignment="Top" Margin="{StaticResource ControlMarginTop}" Padding="{StaticResource ControlPadding}" BorderThickness="2" BorderBrush="#777" Height="100">
-                <control:ReplaceControl ></control:ReplaceControl>
+            <Border Name="FunctionDisplayer" VerticalAlignment="Top" Margin="{StaticResource ControlMarginTop}" Padding="{StaticResource ControlPadding}" BorderThickness="2" BorderBrush="#777">
+                <!--place selected control here or through code-behind-->
             </Border>
         </DockPanel>
 
         <WrapPanel Grid.Row="3" FlowDirection="RightToLeft">
             <Button Content="Submit" Style="{StaticResource ButtonTemplate}"
                 Command="{x:Static ApplicationCommands.Save}"/>
-            <Button Content="Cancel" Style="{StaticResource ButtonTemplate}" Command="{x:Static ApplicationCommands.Close}"/>
+            <Button Content="Cancel" Margin="12 0 0 0" Style="{StaticResource ButtonTemplate}" Command="{x:Static ApplicationCommands.Close}"/>
         </WrapPanel>
 
     </Grid>

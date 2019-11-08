@@ -1,0 +1,76 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Style TargetType="TextBlock" x:Key="CenterTextBlock">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+    
+    <Style TargetType="TextBlock" BasedOn="{StaticResource CenterTextBlock}" x:Key="ItalicTextBlock">
+        <Setter Property="FontStyle" Value="Italic"/>
+        <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="PaleVioletRed"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Border" x:Key="GrayBorder">
+        <Setter Property="Background" Value="{StaticResource DarkToGrayGradient}"/>
+        <Setter Property="MinWidth" Value="100"/>
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="CenterTextBox">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Padding" Value="5 0 0 0"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="{StaticResource GrayWhiteGradient}"/>
+        <Setter Property="SelectionBrush" Value="#2277AA"/>
+        <Setter Property="CaretBrush" Value="#fff"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style TargetType="DockPanel" x:Key="40HeightDockPanel">
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="LastChildFill" Value="True"/>
+    </Style>
+    <!--ComboBox template-->
+    <Style TargetType="ComboBox" x:Key="DarkComboBox">
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Margin" Value="0 0 0 0"/>
+        <Setter Property="IsEditable" Value="True"/>
+        <Setter Property="IsTextSearchCaseSensitive" Value="False"/>
+        <Setter Property="IsTextSearchEnabled" Value="True"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="#454545"/>
+                    <Setter Property="Height" Value="40"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="BorderBrush" Value="#aaa"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Foreground="White" Text="{Binding}"/>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

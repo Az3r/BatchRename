@@ -47,11 +47,13 @@ namespace StringLibrary
                 case StringFormat.Capitalize:
                     StringBuilder builder = new StringBuilder(str.Length);
                     string[] tokens = str.Trim().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string token in tokens)
+                    for (int i = 0; i < tokens.Length; i++)
                     {
-                        StringBuilder temp = new StringBuilder(token);
+                        StringBuilder temp = new StringBuilder(tokens[i]);
                         temp[0] = char.ToUpper(temp[0]);
                         builder.Append(temp.ToString());
+                        if (i < tokens.Length - 1)
+                            builder.Append(' ');
                     }
                     return builder.ToString();
                 default:
@@ -97,9 +99,14 @@ namespace StringLibrary
             StringBuilder result = new StringBuilder(str);
             for (int i = 0; i < count; ++i)
             {
-                char ch = result[i + firstFrom];
-                result[i + firstFrom] = result[i + firstTo];
-                result[i + firstTo] = ch;
+                // swap characters or append string if moving characters goes out of range
+                if (i + firstFrom >= result.Length) result.Append(str[i + firstFrom]);
+                else
+                {
+                    char ch = result[i + firstFrom];
+                    result[i + firstFrom] = result[i + firstTo];
+                    result[i + firstTo] = ch;
+                }
             }
             return result.ToString();
         }

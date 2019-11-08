@@ -11,13 +11,16 @@ namespace BatchRename.Models
         public FunctionReplace()
         {
             Name = "Replace";
-            args = new object[2] { "from", "to" };
-            Handler = new StringDelegate((s, args) => s.Replace(args[0].ToString(), args[1].ToString()));
         }
 
+
+        public override string GetString(string src)
+        {
+            return src.Replace(OldValue, NewValue);
+        }
         public string OldValue
         {
-            get => args[0].ToString();
+            get => args[0];
             set
             {
                 args[0] = value;
@@ -26,12 +29,14 @@ namespace BatchRename.Models
         }
         public string NewValue
         {
-            get => args[1].ToString();
+            get => args[1];
             set
             {
                 args[1] = value;
                 NotifyPropertyChanged();
             }
         }
+
+        private string[] args = new string[2] { string.Empty, string.Empty };
     }
 }

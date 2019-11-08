@@ -11,8 +11,10 @@ namespace BatchRename.Models
         public FunctionNormalize()
         {
             Name = "Normalize";
-            args = null;
-            Handler = new StringDelegate((s, args) => s.Normalize());
+        }
+        public override string GetString(string src)
+        {
+            return src.ChangeFormat(StringFormat.Capitalize);
         }
     }
 }

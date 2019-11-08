@@ -9,16 +9,19 @@ namespace BatchRename.Models
 {
     public sealed class FunctionMove : BatchFunction
     {
-        public FunctionMove() 
+        public FunctionMove()
         {
             Name = "Move";
-            args = new object[3];
-            Handler = new StringDelegate((s, args) => s.Move(FirstFrom, FirstTo, Count));
+        }
+
+        public override string GetString(string src)
+        {
+            return src.Move(FirstFrom, FirstTo, Count);
         }
 
         public int FirstFrom
         {
-            get => int.Parse(args[0].ToString());
+            get => args[0];
             set
             {
                 args[0] = value;
@@ -27,22 +30,24 @@ namespace BatchRename.Models
         }
         public int FirstTo
         {
-            get => int.Parse(args[1].ToString());
+            get => args[1];
             set
             {
-                args[0] = value;
+                args[1] = value;
                 NotifyPropertyChanged();
 
             }
         }
         public int Count
         {
-            get => int.Parse(args[2].ToString());
+            get => args[2];
             set
             {
-                args[0] = value;
+                args[2] = value;
                 NotifyPropertyChanged();
             }
         }
+
+        private int[] args = new int[3];
     }
 }

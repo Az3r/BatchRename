@@ -6,8 +6,22 @@
     <Application.Resources>
         
         <!--colors-->
-        <SolidColorBrush x:Key="BackGroundColor" Color="#454545"/>
+        <SolidColorBrush x:Key="BackGroundColor" Color="#444"/>
         <SolidColorBrush x:Key="BorderBrushColor" Color="#111"/>
+        <LinearGradientBrush StartPoint="0 1" EndPoint="0 0" x:Key="DarkToGrayGradient">
+            <GradientStop Color="#333" Offset="0"/>
+            <GradientStop Color="#454545" Offset="0.6"/>
+            <GradientStop Color="#888" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush StartPoint="0 1" EndPoint="1 0" x:Key="DarkGradient">
+            <GradientStop Color="#000" Offset="0"/>
+            <GradientStop Color="#333" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush StartPoint="0 0" EndPoint="1 0" x:Key="GrayWhiteGradient">
+            <GradientStop Color="#323232" Offset="0"/>
+            <GradientStop Color="#575757" Offset="0.7"/>
+            <GradientStop Color="#999" Offset="1"/>
+        </LinearGradientBrush>
         
         <Style TargetType="Window">
             <Setter Property="FontSize" Value="12"/>
@@ -18,11 +32,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-        
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
+               
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type ContentControl}}">
             <Setter Property="Foreground" Value="White"/>
         </Style>
@@ -53,43 +63,71 @@
             </Button>
         </ControlTemplate>
         
+        <!--Button template-->
         <Style TargetType="Button">
             <Setter Property="Padding" Value="5"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <LinearGradientBrush StartPoint="0 1" EndPoint="0 0">
-                        <GradientStop Color="#333" Offset="0"/>
-                        <GradientStop Color="#454545" Offset="0.6"/>
-                        <GradientStop Color="#888" Offset="1"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Background" Value="{StaticResource DarkToGrayGradient}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        <Border Background="{TemplateBinding Background}" TextBlock.Foreground="{TemplateBinding Foreground}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0 1" EndPoint="0 0">
-                                <GradientStop Color="#000" Offset="0"/>
-                                <GradientStop Color="#333" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Background" Value="{StaticResource DarkGradient}"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="true">
                     <Setter Property="Background" Value="#454545"/>
+                    <Setter Property="FontSize" Value="11"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="#666"/>
                 </Trigger>
             </Style.Triggers>
+        </Style>
+
+        <!--ComboBox template-->
+        <Style TargetType="ComboBox" x:Key="DarkComboBox">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="7 0 0 0"/>
+            <Setter Property="IsEditable" Value="True"/>
+            <Setter Property="IsTextSearchCaseSensitive" Value="False"/>
+            <Setter Property="IsTextSearchEnabled" Value="True"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="Background" Value="#454545"/>
+                        <Setter Property="Height" Value="40"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#aaa"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBlock Foreground="White" Text="{Binding}"/>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>

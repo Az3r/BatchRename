@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BatchRename.Views.Controls.ChangeFormatControl"
+﻿<UserControl x:Class="BatchRename.Views.Controls.MoveControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,6 +11,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Resources/Dictionaries/FunctionDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="TextBox" BasedOn="{StaticResource CenterTextBox}" x:Key="NumericTextBox">
+                <EventSetter Event="PreviewTextInput" Handler="OnCheckInput"/>
+                <EventSetter Event="DataObject.Pasting" Handler="OnCheckPastedData"/>
+            </Style>
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -22,35 +27,49 @@
             <RowDefinition Height="14"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <DockPanel Grid.ColumnSpan="10" Style="{StaticResource 40HeightDockPanel}">
-            <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
+            <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}" Width="100">
                 <TextBlock Style="{StaticResource CenterTextBlock}" Text="Name:"/>
             </Border>
             <TextBox Style="{StaticResource CenterTextBox}"  Text="{Binding Name, Mode=TwoWay}"/>
         </DockPanel>
-        <DockPanel Grid.Row="2" Style="{StaticResource 40HeightDockPanel}">
+        <DockPanel Grid.Row="2" Grid.Column="0" Style="{StaticResource 40HeightDockPanel}">
             <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
-                <TextBlock Style="{StaticResource ItalicTextBlock}" ToolTip="" Text="Format:"/>
+                <TextBlock Style="{StaticResource ItalicTextBlock}" ToolTip="position of first character to be moved" Text="First from:"/>
             </Border>
-            <ComboBox Style="{StaticResource DarkComboBox}" HorizontalAlignment="Left" Width="200"
-                      ItemsSource="{Binding Formats}" SelectedIndex="0" SelectedItem="{Binding Format,Mode=TwoWay}"/>
+            <TextBox Style="{StaticResource NumericTextBox}" Text="{Binding FirstFrom,Mode=TwoWay}"/>
         </DockPanel>
-        <DockPanel Grid.Row="4" Grid.ColumnSpan="10">
+        <DockPanel Grid.Row="2" Grid.Column="1" LastChildFill="True">
+            <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
+                <TextBlock Style="{StaticResource ItalicTextBlock}" ToolTip="position where first character will move to" Text="First to:"/>
+            </Border>
+            <TextBox Style="{StaticResource NumericTextBox}" Text="{Binding FirstTo,Mode=TwoWay}"/>
+        </DockPanel>
+        <DockPanel Grid.Row="2" Grid.Column="2" LastChildFill="True">
+            <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
+                <TextBlock Style="{StaticResource ItalicTextBlock}" ToolTip="number of characters to be moved" Text="Count:"/>
+            </Border>
+            <TextBox Style="{StaticResource NumericTextBox}" Text="{Binding Count,Mode=TwoWay}"/>
+        </DockPanel>
+        <DockPanel Grid.Row="4" Grid.ColumnSpan="10" Style="{StaticResource 40HeightDockPanel}">
             <Border DockPanel.Dock="Top" Background="#343434" Height="30">
                 <TextBlock Style="{StaticResource CenterTextBlock}" Text="Test Function" FontSize="13"/>
             </Border>
-            <DockPanel Style="{StaticResource 40HeightDockPanel}">
                 <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
                     <TextBlock Style="{StaticResource ItalicTextBlock}" Text="Input:"/>
                 </Border>
-                <TextBox Name="tbInput" Style="{StaticResource CenterTextBox}" Text="A string to be tested" Width="250"/>
+            <TextBox Name="tbInput" Style="{StaticResource CenterTextBox}" Text="A string to be tested" Width="250"/>
                 <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
                     <Button Content="Result" Width="100" Click="OnShowResult"/>
                 </Border>
-                <Border DockPanel.Dock="Left" BorderThickness="1" BorderBrush="#888" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5">
+                <Border DockPanel.Dock="Left">
                     <TextBlock Name="tbResult" Style="{StaticResource ItalicTextBlock}" TextWrapping="Wrap"/>
                 </Border>
-            </DockPanel>
         </DockPanel>
     </Grid>
 </UserControl>
