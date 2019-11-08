@@ -4,21 +4,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename.Views.Controls"
+        xmlns:cmds="clr-namespace:BatchRename.Commands"
         mc:Ignorable="d"
         Title="Batch Rename" Height="600" Width="1000">
-    
-    <Window.Resources>
-        <Style TargetType="TextBlock" x:Key="TextBlockMouseHover">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="#0af"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
 
-        <Style TargetType="WrapPanel" x:Key="VerticalWrapPanel">
+    <Window.Resources>
+        <Style TargetType="StackPanel" x:Key="VerticalStackPanel">
             <Setter Property="Background" Value="#333"/>
             <Setter Property="LayoutTransform">
                 <Setter.Value>
@@ -27,7 +18,9 @@
             </Setter>
         </Style>
     </Window.Resources>
-
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static cmds:Commands.ExpandControl}" CanExecute="CanExpand" Executed="Expanded"/>
+    </Window.CommandBindings>
     <Grid Background="{StaticResource BackGroundColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -41,20 +34,30 @@
         </Grid.RowDefinitions>
 
         <!--Action section-->
-        <WrapPanel Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                   Style="{StaticResource VerticalWrapPanel}">
-            <DockPanel Margin="5 5 0 0" LastChildFill="False">
-                <Rectangle DockPanel.Dock="Bottom" 
-                           Fill="#999" Height="5" />
-                <TextBlock DockPanel.Dock="Bottom" 
-                           Style="{StaticResource TextBlockMouseHover}" Text="Action Explorer"
-                           Mouse.MouseDown="OnExpand">
-                </TextBlock>
-            </DockPanel>
-        </WrapPanel>
+        <StackPanel Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource VerticalStackPanel}" Orientation="Horizontal">
+            <Button DockPanel.Dock="Bottom"  Style="{StaticResource TransparentBorderlessButton}"
+                        Content="Action Explorer" Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=ActionPanel}">
+            </Button>
+            <Button DockPanel.Dock="Bottom"  Style="{StaticResource TransparentBorderlessButton}"
+                        Content="Template Functions" Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=TemplatePanel}">
+            </Button>
+        </StackPanel>
         <GridSplitter Grid.Column="2" Grid.RowSpan="2" Background="#999999" HorizontalAlignment="Stretch"/>
 
-        <local:ActionExplorerControl Grid.Column="1" Grid.RowSpan="2"/>
+        <StackPanel Name="TabPanel" Grid.Column="1" Grid.RowSpan="2">
+            <local:ActionExplorerControl x:Name="ActionPanel" Visibility="Collapsed"/>
+            <StackPanel Name="TemplatePanel" Visibility="Visible">
+                <Label Content="Template Functions" Style="{StaticResource TitleLabel}"/>
+                <ListBox BorderThickness="0" ItemsSource="{Binding TemplateFunctions}" Style="{StaticResource FunctionListTemplate}"
+                         MouseDoubleClick="OnOpenEditor">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Name}" Margin="5 10 0 10"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </StackPanel>
         <local:ItemDisplayControl Grid.Column="3" Grid.Row="0" Grid.RowSpan="2"/>
     </Grid>
 </Window>

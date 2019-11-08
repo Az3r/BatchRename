@@ -18,7 +18,6 @@ namespace BatchRename.Models
         {
             return src.Move(FirstFrom, FirstTo, Count);
         }
-
         public int FirstFrom
         {
             get => args[0];

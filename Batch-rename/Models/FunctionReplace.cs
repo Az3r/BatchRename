@@ -12,8 +12,6 @@ namespace BatchRename.Models
         {
             Name = "Replace";
         }
-
-
         public override string GetString(string src)
         {
             return src.Replace(OldValue, NewValue);

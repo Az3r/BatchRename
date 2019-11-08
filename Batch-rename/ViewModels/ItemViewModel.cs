@@ -67,6 +67,9 @@ namespace BatchRename.ViewModels
             while (collection.Count > 0)
                 Items.Remove(collection[0] as BatchItem);
         }
+        /*
+         * Properties
+         */
         public bool? FullDisplay
         {
             get => mFullDisplay;
@@ -81,7 +84,12 @@ namespace BatchRename.ViewModels
                 }
             }
         }
-        public IList SelectedItems { get; set; }
+        public BatchFunction[] TemplateFunctions { get; private set; } = new BatchFunction[]
+        {
+            new FunctionChangeFormat(),
+            new FunctionMove(),
+            new FunctionReplace(),
+        };
         public ObservableHashSet<BatchItem> Items { get; set; } = new ObservableHashSet<BatchItem>();
         public ObservableCollection<BatchFunction> Actions { get; set; } = new ObservableCollection<BatchFunction>();
 

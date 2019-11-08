@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Controls;
 namespace BatchRename.Views
 {
     /// <summary>
@@ -21,6 +21,25 @@ namespace BatchRename.Views
             Style = FindResource(typeof(Window)) as Style;
         }
 
+        /*
+         * Commands events
+         */
+        private void CanExpand(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void Expanded(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            // Collapse all element except one in e.param
+            foreach (UIElement element in TabPanel.Children)
+            {
+                element.Visibility = Visibility.Collapsed;
+            }
+            UIElement param = e.Parameter as UIElement;
+            param.Visibility = Visibility.Visible;
+        }
+
         private void CreateFile(string directory, int n)
         {
             if (Directory.Exists(directory))
@@ -32,31 +51,17 @@ namespace BatchRename.Views
             }
             else throw new DirectoryNotFoundException($"{directory}");
         }
-
-        public ItemViewModel ViewModel { get; set; }
-
-        private void OnCreateAction(object sender, RoutedEventArgs e)
+        private void OnOpenEditor(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-
-        }
-
-        private void OnExpand(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            expanded = !expanded;
-            if (expanded) 
+            ListBox control = e.Source as ListBox;
+            Editor window = new Editor(control.SelectedItem) { Owner = this };
+            window.ShowDialog();
+            EditorViewModel context = window.DataContext as EditorViewModel;
+            if(context.GeneratedFunction != null)
             {
-                ActionCol.Width = mSaveLength[0];
-                SplitterCol.Width = mSaveLength[1];
-            } 
-            else
-            {
-                mSaveLength[0] = ActionCol.Width;
-                mSaveLength[1] = SplitterCol.Width;
-                SplitterCol.Width = ActionCol.Width = new GridLength(0, GridUnitType.Star);
+                ViewModel.Actions.Add(context.GeneratedFunction);
             }
         }
-
-        private bool expanded = true;
-        private GridLength[] mSaveLength = new GridLength[2];
+        public ItemViewModel ViewModel { get; set; } = new ItemViewModel();
     }
 }

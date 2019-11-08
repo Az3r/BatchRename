@@ -11,8 +11,8 @@ namespace BatchRename.ViewModels
     {
         public ActionExplorerViewModel()
         {
-            Functions.Add(new BatchFunction() { IsFavorite = true, Name = "Fucntion" });
-            Functions.Add(new BatchFunction() { IsFavorite = false, Name = "Fucntion" });
+            Functions.Add(new FunctionNormalize());
+            Functions.Add(new FunctionGUID());
 
             RefreshFavorite();
         }

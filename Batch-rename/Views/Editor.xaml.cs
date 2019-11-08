@@ -17,43 +17,44 @@ using System.ComponentModel;
 using BatchRename.ViewModels;
 using BatchRename.Views.Controls;
 using System.Runtime.CompilerServices;
+using BatchRename.Models;
+
 namespace BatchRename.Views
 {
     /// <summary>
     /// Interaction logic for Function_Creator.xaml
     /// </summary>
-    public partial class ActionEditor : Window
+    public partial class Editor : Window
     {
-        public ActionEditor()
+        public Editor()
         {
             Style = FindResource(typeof(Window)) as Style;
             DataContext = ViewModel;
             InitializeComponent();
         }
-
+        public Editor(object function) : this()
+        {
+            if (function is BatchFunction batch) 
+            {
+                FunctionType.SelectedItem = batch.Name;
+            }
+            else throw new ArgumentException("function is not BatchFunction");
+        }
         /*
          * Command events
          */
         private void CanSubmit(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
+            if (FunctionDisplayer?.Child == null) e.CanExecute = false;
         }
         private void Submitted(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBox.Show("Submitting!");
+            Control ctrl = FunctionDisplayer.Child as Control;
+            ViewModel.ApplySetting(ctrl.DataContext);
             Close();
         }
-        private void CanClose(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void Canceled(object sender, ExecutedRoutedEventArgs e)
-        {
-            MessageBox.Show("Canceling!");
-            Close();
-        }
-
         /*
          * Other events
          */
@@ -73,9 +74,10 @@ namespace BatchRename.Views
             if (FunctionDisplayer == null || e.AddedItems?.Count == 0) return;
             FunctionDisplayer.Child = ViewModel.CreateControl(e.AddedItems[0].ToString());
         }
-
-
-
+        private void OnCancel(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
         public EditorViewModel ViewModel { get; private set; } = new EditorViewModel();
         private Cursor origin;
     }

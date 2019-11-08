@@ -14,8 +14,6 @@ namespace BatchRename.Models
     [Serializable]
     public class BatchFunction : EventNotifier, ISerializable
     {
-        [Serializable]
-        public delegate string StringDelegate(string target, params object[] args);
         public BatchFunction() { }
         protected BatchFunction(SerializationInfo info, StreamingContext context)
         {
@@ -53,6 +51,7 @@ namespace BatchRename.Models
                 NotifyPropertyChanged();
             }
         }
+
         private string mName = string.Empty;
         private bool mFavorite = false;
     }

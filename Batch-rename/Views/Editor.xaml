@@ -1,4 +1,4 @@
-﻿<Window x:Class="BatchRename.Views.ActionEditor"
+﻿<Window x:Class="BatchRename.Views.Editor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,7 @@
         xmlns:control="clr-namespace:BatchRename.Views.Controls"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
+        WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         Title="Editor" Height="450" Width="700" MouseLeftButtonDown="OnDragging" MouseLeftButtonUp="OnDragged">
 
     <Window.Resources>
@@ -47,15 +47,15 @@
             <Setter Property="Height" Value="35"/>
         </Style>
     </Window.Resources>
+    
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static ApplicationCommands.Save}" CanExecute="CanSubmit" Executed="Submitted"/>
-        <CommandBinding Command="{x:Static ApplicationCommands.Close}" CanExecute="CanClose" Executed="Canceled"/>
     </Window.CommandBindings>
+    
     <Window.InputBindings>
-        <KeyBinding Key="F4" Modifiers="Alt" Command="{x:Static ApplicationCommands.Close}"/>
-        <KeyBinding Key="Esc" Command="{x:Static ApplicationCommands.Close}"/>
         <KeyBinding Key="Return" Command="{x:Static ApplicationCommands.Save}"/>
     </Window.InputBindings>
+    
     <Grid Background="{StaticResource BackGroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -67,15 +67,17 @@
             <TextBlock DockPanel.Dock="Left" Style="{StaticResource TextBlockTemplate}"
                     Text="Action Name:"/>
             <TextBox Name="tbActionName" Style="{StaticResource TextBoxTempalte}"
-                     Text="My Action"/>
+                     Text="{Binding Name, Mode=TwoWay}"/>
         </DockPanel>
         <StackPanel Name="stkActionSelection" Grid.Row="1" Margin="0 5 0 5">
             <WrapPanel>
                 <TextBlock Style="{StaticResource TextBlockTemplate}"
                            Text="Select type:"/>
-                <ComboBox Name="cbFunctions" Style="{StaticResource DarkComboBox}"
+                <ComboBox Name="FunctionType" Style="{StaticResource DarkComboBox}"
                         ItemsSource="{Binding FunctionNames}" SelectionChanged="OnChangedControl">
                 </ComboBox>
+                <CheckBox Content="Favorite" IsChecked="{Binding IsFavorite, Mode=TwoWay}"
+                          Margin="20 0 0 0" Foreground="White" VerticalAlignment="Center"/>
             </WrapPanel>
         </StackPanel>
 
@@ -91,7 +93,7 @@
         <WrapPanel Grid.Row="3" FlowDirection="RightToLeft">
             <Button Content="Submit" Style="{StaticResource ButtonTemplate}"
                 Command="{x:Static ApplicationCommands.Save}"/>
-            <Button Content="Cancel" Margin="12 0 0 0" Style="{StaticResource ButtonTemplate}" Command="{x:Static ApplicationCommands.Close}"/>
+            <Button Content="Cancel" Margin="12 0 0 0" Style="{StaticResource ButtonTemplate}" Click="OnCancel"/>
         </WrapPanel>
 
     </Grid>

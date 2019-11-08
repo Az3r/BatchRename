@@ -8,10 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
     <UserControl.Resources>
-        <Style TargetType="Label" x:Key="IndexTemplate" BasedOn="{StaticResource {x:Type Label}}">
-            <Setter Property="Padding" Value="15 5 5 5"/>
-        </Style>
-
         <!--Favorite buttons trigger-->
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="FavoriteTemplate">
             <Style.Triggers>
@@ -24,19 +20,7 @@
             </Style.Triggers>
         </Style>
 
-        <!--function item control-->
-        <Style TargetType="ListBox" x:Key="FunctionListTemplate">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="ItemContainerStyle">
-                <Setter.Value>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Padding" Value="0"/>
-                        <Setter Property="BorderBrush" Value="#282828"/>
-                    </Style>
-                </Setter.Value>
-            </Setter>
+        <Style TargetType="ListBox" BasedOn="{StaticResource FunctionListTemplate}" x:Key="FavoriteFunctionListBox">
             <Setter Property="ItemTemplate" >
                 <Setter.Value>
                     <DataTemplate>
@@ -48,7 +32,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <!--stack panel containing functions-->
         <Style TargetType="StackPanel" x:Key="BackgroundDarkPanel">
             <Setter Property="Background" Value="#333"/>
@@ -60,14 +44,14 @@
         <CommandBinding Command="{x:Static cmds:Commands.DeleteFunctions}" CanExecute="CanDelete" Executed="Deleted"/>
         <CommandBinding Command="{x:Static cmds:Commands.Refresh}" CanExecute="CanRefresh" Executed="Refreshed"/>
     </UserControl.CommandBindings>
-    <Grid Background="#232323">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Action Explorer" Background="#333"/>
+        <Label Grid.Row="0" Content="Action Explorer" Style="{StaticResource TitleLabel}"/>
         <WrapPanel Grid.Row="1" FlowDirection="RightToLeft" VerticalAlignment="Center">
             <Button Content="Refresh" Command="{x:Static cmds:Commands.Refresh}"/>
             <Button Content="Delete" Command="{x:Static cmds:Commands.DeleteFunctions}"/>
@@ -78,9 +62,9 @@
             <DockPanel LastChildFill="True">
                 <Button DockPanel.Dock="Right" Template="{StaticResource DownArrowButton}" Width="30"
                         Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=FavoriteFunctions}"/>
-                <Label Style="{StaticResource IndexTemplate}" Content="Favorite"/>
+                <Label Style="{StaticResource IndexLabel}" Content="Favorite"/>
             </DockPanel>
-            <ListBox Name="FavoriteFunctions" Style="{StaticResource FunctionListTemplate}" Visibility="Visible"
+            <ListBox Name="FavoriteFunctions" Style="{StaticResource FavoriteFunctionListBox}" Visibility="Visible"
                           ItemsSource="{Binding FavoriteFunctions}"/>
             <Border BorderBrush="Gray" BorderThickness="1"/>
         </StackPanel>
@@ -88,9 +72,9 @@
             <DockPanel LastChildFill="True">
                 <Button DockPanel.Dock="Right" Template="{StaticResource DownArrowButton}" Width="30"
                         Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=AllFunctions}"/>
-                <Label Content="All Functions" Style="{StaticResource IndexTemplate}"/>
+                <Label Content="All Functions" Style="{StaticResource IndexLabel}"/>
             </DockPanel>
-            <ListBox Name="AllFunctions" Style="{StaticResource FunctionListTemplate}"  Visibility="Collapsed"
+            <ListBox Name="AllFunctions" Style="{StaticResource FavoriteFunctionListBox}"  Visibility="Collapsed"
                           ItemsSource="{Binding Functions}"/>
         </StackPanel>
     </Grid>

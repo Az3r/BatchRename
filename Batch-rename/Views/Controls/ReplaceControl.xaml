@@ -49,16 +49,18 @@
             <Border DockPanel.Dock="Top" Background="#343434" Height="30">
                 <TextBlock Style="{StaticResource CenterTextBlock}" Text="Test Function" FontSize="13"/>
             </Border>
-            <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
-                <TextBlock Style="{StaticResource ItalicTextBlock}" Text="Input:"/>
-            </Border>
-            <TextBox Name="tbInput" Style="{StaticResource CenterTextBox}" Text="A string to be tested" Width="250"/>
-            <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
-                <Button Content="Result" Width="100" Click="OnShowResult"/>
-            </Border>
-            <Border DockPanel.Dock="Left">
-                <TextBlock Name="tbResult" Style="{StaticResource ItalicTextBlock}" TextWrapping="Wrap"/>
-            </Border>
+            <DockPanel Style="{StaticResource 40HeightDockPanel}">
+                <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
+                    <TextBlock Style="{StaticResource ItalicTextBlock}" Text="Input:"/>
+                </Border>
+                <TextBox Name="tbInput" Style="{StaticResource CenterTextBox}" Text="A string to be tested" Width="250"/>
+                <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
+                    <Button Content="Result" Width="100" Click="OnShowResult"/>
+                </Border>
+                <Border DockPanel.Dock="Left" BorderThickness="1" BorderBrush="#888" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5">
+                    <TextBlock Name="tbResult" Style="{StaticResource ItalicTextBlock}" TextWrapping="Wrap"/>
+                </Border>
+            </DockPanel>
         </DockPanel>
     </Grid>
 </UserControl>
