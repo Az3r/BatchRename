@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename.Views.Controls"
         xmlns:cmds="clr-namespace:BatchRename.Commands"
-        mc:Ignorable="d"
+        mc:Ignorable="d" KeyDown="OnOpenExplorer"
         Title="Batch Rename" Height="600" Width="1000">
-
+    
     <Grid Background="{StaticResource BackGroundColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
