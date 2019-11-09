@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Runtime.CompilerServices;
 namespace BatchRename.DataTypes
 {
     public class ObservableHashSet<T> : ObservableCollection<T>
     {
-        public ObservableHashSet(): base() {}
+        public ObservableHashSet() : base() { }
         public ObservableHashSet(IEnumerable<T> collection) : base()
         {
             watcher = new HashSet<T>(collection);

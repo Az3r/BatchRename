@@ -1,7 +1,5 @@
 ﻿using BatchRename.Models;
 using BatchRename.ViewModels;
-using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

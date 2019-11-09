@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+﻿using BatchRename.DataTypes;
 using BatchRename.Models;
-using System.Windows.Input;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Windows.Data;
-using System.Globalization;
-using System.Windows;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.IO;
 using BatchRename.Shared;
-using BatchRename.DataTypes;
-using System.Windows.Controls;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BatchRename.ViewModels
 {
-    public class ItemViewModel: EventNotifier
+    public class ItemViewModel : EventNotifier
     {
         public ItemViewModel() { }
         /* 

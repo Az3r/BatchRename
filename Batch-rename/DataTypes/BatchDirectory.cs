@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BatchRename.Shared;
 using System.IO;
-using BatchRename.Shared;
+using System.Linq;
 
 namespace BatchRename.DataTypes
 {
@@ -58,7 +54,7 @@ namespace BatchRename.DataTypes
             {
                 return Error.FOLDER_NOT_FOUND;
             }
-            else if(!Exists())
+            else if (!Exists())
             {
                 return Error.FOLDER_NOT_FOUND;
             }

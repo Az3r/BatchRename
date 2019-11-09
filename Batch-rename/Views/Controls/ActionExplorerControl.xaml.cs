@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using BatchRename.Models;
 using BatchRename.ViewModels;
-using System.Collections.Generic;
 using System.Collections;
-using BatchRename.Models;
-using System.Windows.Input;
 using System.Windows;
-using System.Windows.Media;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace BatchRename.Views.Controls
 {

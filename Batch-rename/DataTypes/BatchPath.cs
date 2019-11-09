@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using BatchRename.Shared;
+using System;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using BatchRename.Shared;
-using StringLibrary;
 namespace BatchRename.DataTypes
 {
     /// <summary>
@@ -39,7 +32,7 @@ namespace BatchRename.DataTypes
         }
 
         public virtual string Name => Path.GetFileName(FullName);
-        public virtual string FullName 
+        public virtual string FullName
         {
             get => mFullName;
             set

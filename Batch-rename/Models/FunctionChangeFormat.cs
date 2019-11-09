@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BatchRename.Models;
-using StringLibrary;
+﻿using StringLibrary;
+using System;
 namespace BatchRename.Models
 {
     public sealed class FunctionChangeFormat : BatchFunction
@@ -31,7 +28,7 @@ namespace BatchRename.Models
             get => format;
             set
             {
-                format = (StringFormat) Enum.Parse(typeof(StringFormat), value.ToString());
+                format = (StringFormat)Enum.Parse(typeof(StringFormat), value.ToString());
                 NotifyPropertyChanged();
             }
         }

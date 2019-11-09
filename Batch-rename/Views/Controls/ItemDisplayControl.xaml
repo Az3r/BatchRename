@@ -95,7 +95,7 @@
         <CommandBinding Command="{x:Static cmds:Commands.ExecuteAllFiles}" CanExecute="CanExecuteAllFiles" Executed="ExecutedAllFiles"/>
         <CommandBinding Command="{x:Static cmds:Commands.ExecuteSelectedFiles}" CanExecute="CanExecuteSelectedFiles" Executed="ExecutedSelectedFiles"/>
     </UserControl.CommandBindings>
-    
+
     <UserControl.InputBindings>
         <KeyBinding Key="F5" Command="{x:Static cmds:Commands.ExecuteAllFiles}"/>
         <KeyBinding Key="F5" Modifiers="Ctrl" Command="{x:Static cmds:Commands.ExecuteSelectedFiles}"/>
@@ -103,7 +103,7 @@
         <KeyBinding Key="Delete" Command="{x:Static cmds:Commands.DeleteFunctions}"/>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{x:Static cmds:Commands.AddFiles}"/>
     </UserControl.InputBindings>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -122,10 +122,10 @@
             <Button DockPanel.Dock="Right" Content="Execute All" Command="{x:Static cmds:Commands.ExecuteAllFiles}"/>
             <Button DockPanel.Dock="Right" Content="Execute Selected" Command="{x:Static cmds:Commands.ExecuteSelectedFiles}"/>
         </DockPanel>
-        
+
         <!--Place holder button-->
         <Button Margin="-9999" Visibility="Collapsed" Command="{x:Static cmds:Commands.DeleteFunctions}"/>
-        
+
         <DockPanel Grid.RowSpan="3" Margin="30 0 30 0" VerticalAlignment="Top" Panel.ZIndex="10">
             <DockPanel DockPanel.Dock="Top" LastChildFill="True" Background="#333">
                 <Button DockPanel.Dock="Right" Template="{StaticResource DownArrowButton}"
@@ -157,9 +157,9 @@
             </StackPanel>
         </DockPanel>
 
-        <DataGrid Name="FilesDataGrid" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="5"
+        <DataGrid Name="FilesDataGrid" Grid.Row="2" Grid.ColumnSpan="2"
                   AutoGenerateColumns="False" IsReadOnly="True"
-                  ItemsSource="{Binding ItemDisplayer}">
+                  ItemsSource="{Binding ItemDisplayer}" VerticalAlignment="Top">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGrid}">
                     <Setter Property="Background" Value="Transparent"/>
@@ -169,14 +169,6 @@
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Height" Value="40"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsGood}" Value="True">
-                            <Setter Property="Background" Value="Green"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsGood}" Value="False">
-                            <Setter Property="Background" Value="Red"/>
-                        </DataTrigger>
-                    </Style.Triggers>
                 </Style>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#444"/>

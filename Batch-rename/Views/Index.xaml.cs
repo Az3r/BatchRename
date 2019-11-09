@@ -1,12 +1,7 @@
-﻿using BatchRename.Models;
-using BatchRename.ViewModels;
-using System;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
+﻿using BatchRename.ViewModels;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 namespace BatchRename.Views
 {
     /// <summary>

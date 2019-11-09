@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using BatchRename.DataTypes;
 using BatchRename.Shared;
-using BatchRename.DataTypes;
-using System.Runtime.Serialization;
-using System.Windows;
+using System;
+using System.IO;
 
 namespace BatchRename.Models
 {

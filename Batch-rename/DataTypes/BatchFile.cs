@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BatchRename.Shared;
 using System.IO;
-using System.ComponentModel;
-using BatchRename.Shared;
 
 namespace BatchRename.DataTypes
 {
@@ -25,7 +19,7 @@ namespace BatchRename.DataTypes
         {
             if (overwrite == false && Exists()) return Error.FILE_EXISTS;
             using (File.Create(FullName)) { }
-            return Error.SUCCESS;        
+            return Error.SUCCESS;
         }
 
         public override int Delete()

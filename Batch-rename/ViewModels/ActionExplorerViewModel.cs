@@ -1,14 +1,10 @@
-﻿using System;
+﻿using BatchRename.Models;
+using BatchRename.Shared;
+using BatchRename.Views;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using BatchRename.Models;
-using BatchRename.Views;
-using BatchRename.Shared;
 namespace BatchRename.ViewModels
 {
     public class ActionExplorerViewModel : EventNotifier
@@ -34,7 +30,7 @@ namespace BatchRename.ViewModels
         }
         public void CreateFunction(Window owner, BatchFunction function)
         {
-            Editor window = new Editor() { Owner = owner};
+            Editor window = new Editor() { Owner = owner };
             window.SetDisplayFunction(function);
             window.ShowDialog();
             EditorViewModel context = window.DataContext as EditorViewModel;
@@ -69,7 +65,7 @@ namespace BatchRename.ViewModels
             {
                 if (Functions.IndexOf(collection[i] as BatchFunction) > 0) indexes.Add(i);
             }
-            for (int i = indexes.Count-1; i >= 0; i--)
+            for (int i = indexes.Count - 1; i >= 0; i--)
             {
                 Functions.RemoveAt(i);
             }
@@ -94,6 +90,6 @@ namespace BatchRename.ViewModels
                 return list.ToArray();
             }
         }
-        public ObservableCollection<BatchFunction> Functions { get; private set;} = new ObservableCollection<BatchFunction>();
+        public ObservableCollection<BatchFunction> Functions { get; private set; } = new ObservableCollection<BatchFunction>();
     }
 }

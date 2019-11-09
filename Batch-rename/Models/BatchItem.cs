@@ -1,12 +1,9 @@
-﻿using BatchRename.Shared;
+﻿using BatchRename.DataTypes;
+using BatchRename.Shared;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BatchRename.DataTypes;
 using System.IO;
-using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace BatchRename.Models
 {
@@ -45,18 +42,16 @@ namespace BatchRename.Models
             {
                 fallBackTarget = Target.Clone();
                 int err = Target.Delete();
-                if (!Error.IsGood(err)) { Message = Error.GetMessage(err); IsGood = false; return; }
+                if (!Error.IsGood(err)) { Message = Error.GetMessage(err); return; }
 
                 err = Result.Create(IsOverWrite);
-                if (!Error.IsGood(err)) 
+                if (!Error.IsGood(err))
                 {
                     fallBackTarget.Create(true);
                     Target = fallBackTarget;
                     Message = Error.GetMessage(err);
-                    IsGood = false;
                     return;
                 }
-                IsGood = true;
                 Target.FullName = Result.FullName;
                 Result.FullName = string.Empty;
                 Result = null;
@@ -82,16 +77,6 @@ namespace BatchRename.Models
                 NotifyPropertyChanged();
             }
         }
-        public bool? IsGood
-        {
-            get => mGood;
-            set
-            {
-                mGood = value;
-                NotifyPropertyChanged();
-            }
-        }
-        private bool? mGood;
         public string Message { get; private set; } = string.Empty;
         public IEnumerable<BatchFunction> Actions { get; set; }
         public BatchPath Target { get; set; }

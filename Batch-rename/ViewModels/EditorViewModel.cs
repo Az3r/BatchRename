@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BatchRename.Views.Controls;
-using BatchRename.Models;
-using System.Windows.Controls;
+﻿using BatchRename.Models;
 using BatchRename.Shared;
+using BatchRename.Views.Controls;
+using System.Windows.Controls;
 namespace BatchRename.ViewModels
 {
     public class EditorViewModel : EventNotifier
@@ -27,9 +22,9 @@ namespace BatchRename.ViewModels
 
         public Control CreateControl(BatchFunction function)
         {
-            if (function is FunctionReplace replace) return new ReplaceControl(replace);
-            else if (function is FunctionMove move) return new MoveControl(move);
-            else if (function is FunctionChangeFormat format) return new ChangeFormatControl(format);
+            if (function is FunctionReplace replace) return new ReplaceControl(replace.Clone() as FunctionReplace);
+            else if (function is FunctionMove move) return new MoveControl(move.Clone() as FunctionMove);
+            else if (function is FunctionChangeFormat format) return new ChangeFormatControl(format.Clone() as FunctionChangeFormat);
             return null;
         }
 
