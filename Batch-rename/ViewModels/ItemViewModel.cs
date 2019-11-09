@@ -15,42 +15,85 @@ using System.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.IO;
+using BatchRename.Shared;
 using BatchRename.DataTypes;
+using System.Windows.Controls;
+
 namespace BatchRename.ViewModels
 {
-    public class ItemViewModel
+    public class ItemViewModel: EventNotifier
     {
-        public ItemViewModel() 
-        {
-            SelectedFunctions.Add(new BatchFunction());
-        }
-
+        public ItemViewModel() { }
         /* 
          * Private Helpers
          */
 
-
+        private async Task CommitChanges()
+        {
+            Task task = Task.Run(() =>
+            {
+                Parallel.ForEach(Items, async (source) =>
+                {
+                    source.Actions = Functions;
+                    await source.Commit();
+                });
+                RefreshDisplay();
+            });
+            await task;
+        }
+        private void Rename(IEnumerable<BatchItem> collection)
+        {
+            Parallel.ForEach(collection, async (item) =>
+            {
+                await item.Rename();
+            });
+        }
         /*
          * Interfaces
          */
-        public void AddFiles(string[] collection)
+
+        public void RemoveFunctions(IList collection)
         {
-            // must be no duplicate
-            foreach (string path in collection)
-            {
-                BatchItem item = new BatchItem();
-                if (BatchPath.IsDirectory(path)) item.Target = new BatchDirectory(path);
-                if (BatchPath.IsFile(path)) item.Target = new BatchFile(path);
-                item.TargetDisplay = mFullDisplay ? item.TargetFullName : item.TargetName;
-                Items.Add(item);
-            }
+            while (collection.Count > 0)
+                Functions.Remove(collection[0] as BatchFunction);
         }
-        public void AddFiles(BatchItem[] collection)
+        public void AddFunctions(BatchFunction[] functions)
         {
-            foreach (BatchItem item in collection)
+            foreach (BatchFunction function in functions)
             {
-                Items.Add(item);
+                Functions.Add(function);
             }
+            CommitChanges();
+        }
+        public void RenameSelected(IList collection)
+        {
+            Rename(collection.Cast<BatchItem>());
+        }
+        public void RenameAll()
+        {
+            Rename(Items);
+        }
+        public void RefreshDisplay()
+        {
+            if (IsFilesAndFolders) ItemDisplayer = AllFilesAndFolders;
+            else if (IsFilesOnly) ItemDisplayer = FilesOnly;
+            else if (IsFoldersOnly) ItemDisplayer = FoldersOnly;
+        }
+        public async Task AddFiles(string[] collection)
+        {
+            Task task = Task.Run(() =>
+            {
+                foreach (string path in collection)
+                {
+                    BatchItem item = new BatchItem() { Actions = Functions };
+                    if (BatchPath.IsDirectory(path)) item.Target = new BatchDirectory(path);
+                    if (BatchPath.IsFile(path)) item.Target = new BatchFile(path);
+                    Items.Add(item);
+                    item.Commit();
+                }
+                RefreshDisplay();
+            });
+            await task;
         }
         public void AddFileFromExplorer()
         {
@@ -68,29 +111,78 @@ namespace BatchRename.ViewModels
         }
         public void RemoveItems(IList collection)
         {
-            while (collection.Count > 0)
-                Items.Remove(collection[0] as BatchItem);
+            foreach (BatchItem item in collection)
+            {
+                Items.Remove(item);
+            }
+            RefreshDisplay();
         }
         /*
          * Properties
          */
-        public bool? FullDisplay
+        public BatchItem[] ItemDisplayer
         {
-            get => mFullDisplay;
+            get => mItemDisplayer;
             set
             {
-                mFullDisplay = false;
-                if (value.HasValue && value.Value == true) mFullDisplay = true;
-                foreach (BatchItem item in Items)
+                mItemDisplayer = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public BatchItem[] FilesOnly
+        {
+            get
+            {
+                BatchItem[] array = new BatchItem[Items.Count];
+                for (int i = 0; i < Items.Count; i++)
                 {
-                    item.TargetDisplay = mFullDisplay ? item.TargetFullName : item.TargetName;
-                    item.ResultDisplay = mFullDisplay ? item.ResultFullName : item.ResultName;
+                    if (BatchPath.IsFile(Items[i].Target.FullName))
+                        array[i] = Items[i];
                 }
+                //filter null value
+                return array.Where((item) => item != null).ToArray();
+            }
+        }
+        public bool? IsOverWrite
+        {
+            get => mOverwrite;
+            set
+            {
+                if (value.HasValue && value.Value == true) mOverwrite = true;
+                else mOverwrite = false;
+            }
+        }
+        public BatchItem[] FoldersOnly
+        {
+            get
+            {
+                BatchItem[] array = new BatchItem[Items.Count];
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    if (BatchPath.IsDirectory(Items[i].Target.FullName))
+                        array[i] = Items[i];
+                }
+                //filter null value
+                return array.Where((item) => item != null).ToArray();
+            }
+        }
+        public BatchItem[] AllFilesAndFolders
+        {
+            get
+            {
+                BatchItem[] array = new BatchItem[Items.Count];
+                Items.CopyTo(array, 0);
+                return array;
             }
         }
         public ObservableHashSet<BatchItem> Items { get; set; } = new ObservableHashSet<BatchItem>();
-        public ObservableCollection<BatchFunction> SelectedFunctions { get; set; } = new ObservableCollection<BatchFunction>();
+        public ObservableHashSet<BatchFunction> Functions { get; set; } = new ObservableHashSet<BatchFunction>();
 
-        private bool mFullDisplay;
+        public bool IsFilesOnly { get; set; } = false;
+        public bool IsFoldersOnly { get; set; } = false;
+        public bool IsFilesAndFolders { get; set; } = true;
+
+        private BatchItem[] mItemDisplayer = new BatchItem[0];
+        private bool mOverwrite = false;
     }
 }

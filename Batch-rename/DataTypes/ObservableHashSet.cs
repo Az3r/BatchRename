@@ -27,7 +27,11 @@ namespace BatchRename.DataTypes
         {
             foreach (T item in collection) Add(item);
         }
-
+        public void Remove(T item)
+        {
+            watcher.Remove(item);
+            base.Remove(item);
+        }
         private HashSet<T> watcher = new HashSet<T>();
     }
 }

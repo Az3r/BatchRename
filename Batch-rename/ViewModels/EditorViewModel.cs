@@ -27,9 +27,9 @@ namespace BatchRename.ViewModels
 
         public Control CreateControl(BatchFunction function)
         {
-            if (function is FunctionReplace) return new ReplaceControl() { DataContext = function.Clone() };
-            else if (function is FunctionMove) return new MoveControl() { DataContext = function.Clone() };
-            else if (function is FunctionChangeFormat) return new ChangeFormatControl() { DataContext = function.Clone() };
+            if (function is FunctionReplace replace) return new ReplaceControl(replace);
+            else if (function is FunctionMove move) return new MoveControl(move);
+            else if (function is FunctionChangeFormat format) return new ChangeFormatControl(format);
             return null;
         }
 

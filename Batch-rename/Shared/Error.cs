@@ -20,5 +20,9 @@ namespace BatchRename.Shared
         {
             return $"string message for {errCode}";
         }
+        public static bool IsGood(int errCode)
+        {
+            return errCode == SUCCESS;
+        }
     }
 }

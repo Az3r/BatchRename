@@ -26,7 +26,12 @@ namespace BatchRename.Views.Controls
             DataContext = ViewModel;
             InitializeComponent();
         }
-
+        public ChangeFormatControl(FunctionChangeFormat vm)
+        {
+            ViewModel = vm;
+            DataContext = ViewModel;
+            InitializeComponent();
+        }
         public FunctionChangeFormat ViewModel { get; set; } = new FunctionChangeFormat();
 
         private void OnShowResult(object sender, RoutedEventArgs e)

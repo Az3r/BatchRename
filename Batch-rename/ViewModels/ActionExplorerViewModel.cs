@@ -34,7 +34,7 @@ namespace BatchRename.ViewModels
         }
         public void CreateFunction(Window owner, BatchFunction function)
         {
-            Editor window = new Editor() { Owner = owner };
+            Editor window = new Editor() { Owner = owner};
             window.SetDisplayFunction(function);
             window.ShowDialog();
             EditorViewModel context = window.DataContext as EditorViewModel;

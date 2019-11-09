@@ -26,6 +26,12 @@ namespace BatchRename.Views.Controls
             DataContext = ViewModel;
             InitializeComponent();
         }
+        public ReplaceControl(FunctionReplace vm)
+        {
+            ViewModel = vm;
+            DataContext = vm;
+            InitializeComponent();
+        }
 
         private void OnShowResult(object sender, RoutedEventArgs e)
         {
@@ -40,6 +46,6 @@ namespace BatchRename.Views.Controls
                 tbResult.IsEnabled = false;
             }
         }
-        public FunctionReplace ViewModel { get; private set; } = new FunctionReplace();
+        public FunctionReplace ViewModel { get; set; } = new FunctionReplace();
     }
 }

@@ -5,12 +5,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BatchRename.DataTypes;
+using System.IO;
+using System.Diagnostics;
+
 namespace BatchRename.Models
 {
     public class BatchItem : EventNotifier, IEquatable<BatchItem>
     {
         public BatchItem() { }
 
+        /// <summary>
+        /// Apply functions in <see cref="Actions"/> to <see cref="Target"/>, the result will be saved in <see cref="Result"/> 
+        /// <para>Note: No file io operation is involved</para>
+        /// </summary>
+        public async Task Commit()
+        {
+            if (Actions == null || Actions.GetEnumerator().MoveNext() == false) return;
+            Task task = Task.Run(() =>
+            {
+                string newName = Target.Name;
+                foreach (BatchFunction function in Actions)
+                {
+                    newName = function.GetString(newName);
+                }
+                string newPath = Path.Combine(Target.GetParent(), newName);
+                Result = Target.Clone();
+                Result.FullName = newPath;
+            });
+            await task;
+        }
+        /// <summary>
+        /// Get the result in <see cref="Result"/> and start renaming file or folder
+        /// </summary>
+        public async Task Rename()
+        {
+            if (Result == null || Result.FullName == string.Empty) return;
+            Message = "Running...";
+            Task task = Task.Run(() =>
+            {
+                fallBackTarget = Target.Clone();
+                int err = Target.Delete();
+                if (!Error.IsGood(err)) { Message = Error.GetMessage(err); IsGood = false; return; }
+
+                err = Result.Create(IsOverWrite);
+                if (!Error.IsGood(err)) 
+                {
+                    fallBackTarget.Create(true);
+                    Target = fallBackTarget;
+                    Message = Error.GetMessage(err);
+                    IsGood = false;
+                    return;
+                }
+                IsGood = true;
+                Target.FullName = Result.FullName;
+                Result.FullName = string.Empty;
+                Result = null;
+                Message = "Sucessfully";
+            });
+            await task;
+        }
         public bool Equals(BatchItem other)
         {
             if (Target == null || other == null) return false;
@@ -20,38 +73,31 @@ namespace BatchRename.Models
         {
             return x.Equals(y);
         }
-
-        // The string to be displayed, either full name or name only
-        public string TargetDisplay
+        public bool IsOverWrite
         {
-            get => mTargetDisplay;
+            get => mOverWrite;
             set
             {
-                mTargetDisplay = value;
+                mOverWrite = value;
                 NotifyPropertyChanged();
             }
         }
-        // The string to be displayed, either full name or name only
-        public string ResultDisplay
+        public bool? IsGood
         {
-            get => mResultDisplay;
+            get => mGood;
             set
             {
-                mResultDisplay = value;
+                mGood = value;
                 NotifyPropertyChanged();
             }
         }
+        private bool? mGood;
         public string Message { get; private set; } = string.Empty;
-        public string TargetName => Target?.Name;
-        public string TargetFullName => Target?.FullName;
-        public string ResultName => Result?.Name;
-        public string ResultFullName => Result?.FullName;
-        public bool IsGood { get; private set; } = true;
-        public BatchFunction[] Actions { get; set; } = new BatchFunction[0];
+        public IEnumerable<BatchFunction> Actions { get; set; }
         public BatchPath Target { get; set; }
         public BatchPath Result { get; set; }
 
-        private string mTargetDisplay;
-        private string mResultDisplay;
+        private BatchPath fallBackTarget;
+        private bool mOverWrite;
     }
 }

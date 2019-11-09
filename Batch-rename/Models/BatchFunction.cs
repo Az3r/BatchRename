@@ -11,29 +11,24 @@ using System.Windows;
 
 namespace BatchRename.Models
 {
-    [Serializable]
-    public class BatchFunction : EventNotifier, ISerializable
+    public class BatchFunction : EventNotifier, IEquatable<BatchFunction>
     {
         public BatchFunction() { }
-        protected BatchFunction(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null) throw new ArgumentNullException("info");
-            Name = info.GetString(nameof(Name));
-        }
         public virtual BatchPath GetPath(BatchPath path)
         {
             BatchPath clone = path.Clone();
-            clone.FullName = GetString(path.FullName);
+            clone.FullName = Path.Combine(path.GetParent(), GetString(path.Name));
             return clone;
         }
         public virtual string GetString(string src) { return src; }
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null) throw new ArgumentNullException("info");
-            info.AddValue(nameof(Name), Name);
-        }
-
         public virtual BatchFunction Clone() { return new BatchFunction() { Name = this.Name, IsFavorite = this.IsFavorite }; }
+
+        public bool Equals(BatchFunction other)
+        {
+            if (other == null) return false;
+            if (Name == other.Name) return true;
+            return false;
+        }
 
         public string Name
         {

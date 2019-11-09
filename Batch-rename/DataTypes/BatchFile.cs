@@ -23,11 +23,8 @@ namespace BatchRename.DataTypes
 
         public override int Create(bool overwrite)
         {
-            if (overwrite) using (File.Create(FullName)) { }
-            else if (Exists())
-            {
-                return Error.FILE_EXISTS;
-            }
+            if (overwrite == false && Exists()) return Error.FILE_EXISTS;
+            using (File.Create(FullName)) { }
             return Error.SUCCESS;        
         }
 

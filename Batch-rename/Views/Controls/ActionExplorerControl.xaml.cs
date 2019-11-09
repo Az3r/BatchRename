@@ -5,6 +5,7 @@ using System.Collections;
 using BatchRename.Models;
 using System.Windows.Input;
 using System.Windows;
+using System.Windows.Media;
 
 namespace BatchRename.Views.Controls
 {
@@ -86,6 +87,7 @@ namespace BatchRename.Views.Controls
 
         private void OpenedProperty(object sender, ExecutedRoutedEventArgs e)
         {
+            //if (param.Visibility == Visibility.Visible) param.Visibility = Visibility.Collapsed;
             UIElement param = e.Parameter as UIElement;
             // Collapse all element except one in e.param
             foreach (UIElement element in PropertiesPanel.Children)

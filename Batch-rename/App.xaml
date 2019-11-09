@@ -60,7 +60,7 @@
             <Button Background="{TemplateBinding Background}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                     Command="{TemplateBinding Command}" CommandTarget="{TemplateBinding CommandTarget}" CommandParameter="{TemplateBinding CommandParameter}">
                 <Button.Content>
-                    <Path Fill="{TemplateBinding Foreground}" Data="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" Stretch="Uniform"/>
+                    <Path Margin="{TemplateBinding Padding}" Fill="{TemplateBinding Foreground}" Data="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" Stretch="Uniform"/>
                 </Button.Content>
             </Button>
         </ControlTemplate>

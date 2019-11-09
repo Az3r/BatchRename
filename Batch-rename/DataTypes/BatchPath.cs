@@ -13,7 +13,7 @@ namespace BatchRename.DataTypes
     /// <summary>
     /// <see langword="abstract"/> class for <see cref="BatchFile"/> and <see cref="BatchDirectory"/>
     /// </summary>
-    public abstract class BatchPath : IEquatable<BatchPath>
+    public abstract class BatchPath : EventNotifier, IEquatable<BatchPath>
     {
         public abstract int Create(bool overwrite);
         public abstract int Delete();
@@ -33,11 +33,6 @@ namespace BatchRename.DataTypes
         {
             return other != null && other.FullName.Equals(FullName, StringComparison.Ordinal);
         }
-        protected virtual void SetFullName(string path)
-        {
-            if (!IsPathAbsolute(path)) throw new PathIsNotAbsoluteException($"{path}");
-            mFullName = path;
-        }
         protected static bool IsPathAbsolute(string path)
         {
             return Path.IsPathRooted(path) && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.OrdinalIgnoreCase);
@@ -47,7 +42,12 @@ namespace BatchRename.DataTypes
         public virtual string FullName 
         {
             get => mFullName;
-            set => SetFullName(value);
+            set
+            {
+                mFullName = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(Name));
+            }
         }
 
         private string mFullName = nameof(BatchPath);

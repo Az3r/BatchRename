@@ -10,12 +10,12 @@
 
     <Grid Background="{StaticResource BackGroundColor}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="7"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <local:ActionExplorerControl />
+        <local:ActionExplorerControl Width="275"/>
 
 
         <local:ItemDisplayControl Grid.Column="2"/>

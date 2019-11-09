@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace BatchRename.Views.Controls
 {
@@ -18,8 +19,6 @@ namespace BatchRename.Views.Controls
         {
             // Assign datacontext
             DataContext = ViewModel;
-            // Assign commands
-
             // Initialize
             InitializeComponent();
         }
@@ -27,6 +26,7 @@ namespace BatchRename.Views.Controls
         /*
          * Commands Events
          */
+
         public void CanAddFiles(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -53,7 +53,11 @@ namespace BatchRename.Views.Controls
         }
         public void ExecutedSelectedFiles(object sender, ExecutedRoutedEventArgs e)
         {
-            Debug.WriteLine($"@{nameof(ExecutedSelectedFiles)}: Actions: {FilesDataGrid.SelectedItems.Count}");
+            ShowDescription.IsChecked = true;
+            this.Cursor = Cursors.Wait;
+            ViewModel.RenameSelected(FilesDataGrid.SelectedItems);
+            this.Cursor = Cursors.Arrow;
+            FilesDataGrid.UnselectAll();
         }
         public void CanExecuteAllFiles(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -63,9 +67,35 @@ namespace BatchRename.Views.Controls
         }
         public void ExecutedAllFiles(object sender, ExecutedRoutedEventArgs e)
         {
-            Debug.WriteLine($"@{nameof(ExecutedAllFiles)}: Actions: {FilesDataGrid.Items.Count}");
+            ShowDescription.IsChecked = true;
+            this.Cursor = Cursors.Wait;
+            ViewModel.RenameAll();
+            this.Cursor = Cursors.Arrow;
+            FilesDataGrid.UnselectAll();
+        }
+        private void CanRemoveFunction(object sender, CanExecuteRoutedEventArgs e)
+        {
+            ListBox param = e.Parameter as ListBox;
+            e.CanExecute = true;
+            if (param?.SelectedItems.Count == 0) e.CanExecute = false;
         }
 
+        private void RemovedFunction(object sender, ExecutedRoutedEventArgs e)
+        {
+            ViewModel.RemoveFunctions(SelectedPanel.SelectedItems);
+        }
+        public void CanExpandControl(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+        public void ExpandedControl(object sender, ExecutedRoutedEventArgs e)
+        {
+            Control param = e.Parameter as Control;
+            if (param.Opacity == 0) param.Opacity = 1;
+            else if (param.Opacity == 1) param.Opacity = 0;
+            //if (param.Visibility == System.Windows.Visibility.Visible) param.Visibility = System.Windows.Visibility.Collapsed;
+            //else if (param.Visibility == System.Windows.Visibility.Collapsed) param.Visibility = System.Windows.Visibility.Visible;
+        }
         /*
          * other events
          */
@@ -83,13 +113,28 @@ namespace BatchRename.Views.Controls
             {
                 ViewModel.AddFiles(files);
             }
-            else if(e.Data.GetData(typeof(BatchFunction[])) is BatchFunction[] functions)
+            else if (e.Data.GetData(typeof(BatchFunction[])) is BatchFunction[] functions)
             {
-                foreach (BatchFunction fn in functions)
-                {
-                    ViewModel.SelectedFunctions.Add(fn);
-                }
+                ViewModel.AddFunctions(functions);
             }
+        }
+        private void OnChangeDisplay(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RefreshDisplay();
+        }
+
+        private void OnFunctionSelected(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox control = e.Source as ListBox;
+            if (control?.SelectedItems.Count > 0) GuideLabel.Content = "Press 'Del' To Remove Selected Function";
+            else GuideLabel.Content = "Drag Function To Here";
+        }
+
+        private void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Point pos = e.GetPosition(sender as UIElement);
+            HitTestResult result = VisualTreeHelper.HitTest(SelectedPanel, pos);
+            if (result == null) SelectedPanel.UnselectAll();
         }
     }
 }

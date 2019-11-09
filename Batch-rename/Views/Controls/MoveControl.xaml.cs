@@ -26,7 +26,12 @@ namespace BatchRename.Views.Controls
             DataContext = ViewModel;
             InitializeComponent();
         }
-
+        public MoveControl(FunctionMove move)
+        {
+            ViewModel = move;
+            DataContext = ViewModel;
+            InitializeComponent();
+        }
         private void OnCheckInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !regex.IsMatch(e.Text);
@@ -54,6 +59,6 @@ namespace BatchRename.Views.Controls
             }
         }
         private static readonly Regex regex = new Regex("[0-9]+");
-        public FunctionMove ViewModel { get; private set; } = new FunctionMove();
+        public FunctionMove ViewModel { get; set; } = new FunctionMove();
     }
 }

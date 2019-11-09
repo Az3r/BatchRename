@@ -6,60 +6,160 @@
              xmlns:local="clr-namespace:BatchRename.Views"
              xmlns:cmds="clr-namespace:BatchRename.Commands"
              mc:Ignorable="d" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              AllowDrop="True" Background="{StaticResource BackGroundColor}"
              d:DesignHeight="450" d:DesignWidth="800"
-             DragDrop.Drop="OnDropping"
+             DragDrop.Drop="OnDropping" MouseLeftButtonUp="UserControl_MouseLeftButtonUp"
 >
     <UserControl.Resources>
 
+        <sys:Double x:Key="FunctionItemHeight">35</sys:Double>
+
+        <Style TargetType="CheckBox" x:Key="CheckBoxTemplate">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FlowDirection" Value="LeftToRight"/>
+        </Style>
+        <Style TargetType="RadioButton" x:Key="PathTypeRadioButton">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FlowDirection" Value="LeftToRight"/>
+            <Setter Property="GroupName" Value="PathType"/>
+            <EventSetter Event="Checked" Handler="OnChangeDisplay"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="PathTextBlock">
+            <Setter Property="Text" Value="{Binding Name}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ShowPath,Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="{Binding FullName}"/>
+                    <Setter Property="TextAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ListBox" x:Key="ListBoxTemplate">
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
+            <Setter Property="AllowDrop" Value="True"/>
+            <Setter Property="Opacity" Value="0"/>
+            <Setter Property="SelectionMode" Value="Multiple"/>
+            <Setter Property="Background" Value="{StaticResource BackGroundColor}"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="VerticalContentAlignment" Value="Top"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Height" Value="{StaticResource FunctionItemHeight}"/>
+                        <Setter Property="Background" Value="#393939"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate" >
+                <Setter.Value>
+                    <DataTemplate>
+                        <Label Content="{Binding Name}" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Opacity" Value="0">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.5" From="400" To="0" Storyboard.TargetProperty="Height"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+                <Trigger Property="Opacity" Value="1">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.5" From="0" To="400" Storyboard.TargetProperty="Height"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </UserControl.Resources>
     <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static cmds:Commands.ExpandControl}" CanExecute="CanExpandControl" Executed="ExpandedControl"/>
+        <CommandBinding Command="{x:Static cmds:Commands.DeleteFunctions}" CanExecute="CanRemoveFunction" Executed="RemovedFunction"/>
         <CommandBinding Command="{x:Static cmds:Commands.AddFiles}" CanExecute="CanAddFiles" Executed="AddedFiles"/>
         <CommandBinding Command="{x:Static cmds:Commands.DeleteFiles}" CanExecute="CanDeleteFiles" Executed="DeletedFiles"/>
         <CommandBinding Command="{x:Static cmds:Commands.ExecuteAllFiles}" CanExecute="CanExecuteAllFiles" Executed="ExecutedAllFiles"/>
         <CommandBinding Command="{x:Static cmds:Commands.ExecuteSelectedFiles}" CanExecute="CanExecuteSelectedFiles" Executed="ExecutedSelectedFiles"/>
     </UserControl.CommandBindings>
+    
+    <UserControl.InputBindings>
+        <KeyBinding Key="F5" Command="{x:Static cmds:Commands.ExecuteAllFiles}"/>
+        <KeyBinding Key="F5" Modifiers="Ctrl" Command="{x:Static cmds:Commands.ExecuteSelectedFiles}"/>
+        <KeyBinding Key="Delete" Command="{x:Static cmds:Commands.DeleteFiles}"/>
+        <KeyBinding Key="Delete" Command="{x:Static cmds:Commands.DeleteFunctions}"/>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{x:Static cmds:Commands.AddFiles}"/>
+    </UserControl.InputBindings>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="7.5*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
         <!--Commands-->
-        <WrapPanel Grid.ColumnSpan="5"
-                FlowDirection="RightToLeft">
-            <Button Content="Add Files" Command="{x:Static cmds:Commands.AddFiles}"/>
-            <Button Content="Remove Files" Command="{x:Static cmds:Commands.DeleteFiles}"/>
-            <Button Content="Execute All" Command="{x:Static cmds:Commands.ExecuteAllFiles}"/>
-            <Button Content="Execute Selected" Command="{x:Static cmds:Commands.ExecuteSelectedFiles}"/>
-        </WrapPanel>
-
-        <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
-                   LastChildFill="False">
-            <ComboBox Name="SelectedFunctions" DockPanel.Dock="Left" Style="{StaticResource DarkComboBox}"
-                      IsEditable="False" IsReadOnly="True"
-                      ItemsSource="{Binding SelectedFunctions}">
-            </ComboBox>
+        <DockPanel Name="CommandPanel" Grid.Column="1" VerticalAlignment="Center" LastChildFill="False" >
+            <Button DockPanel.Dock="Right" Content="Add Files" Command="{x:Static cmds:Commands.AddFiles}"/>
+            <Button DockPanel.Dock="Right" Content="Remove Files" Command="{x:Static cmds:Commands.DeleteFiles}"/>
+            <Button DockPanel.Dock="Right" Content="Execute All" Command="{x:Static cmds:Commands.ExecuteAllFiles}"/>
+            <Button DockPanel.Dock="Right" Content="Execute Selected" Command="{x:Static cmds:Commands.ExecuteSelectedFiles}"/>
+        </DockPanel>
+        
+        <!--Place holder button-->
+        <Button Margin="-9999" Visibility="Collapsed" Command="{x:Static cmds:Commands.DeleteFunctions}"/>
+        
+        <DockPanel Grid.RowSpan="3" Margin="30 0 30 0" VerticalAlignment="Top" Panel.ZIndex="10">
+            <DockPanel DockPanel.Dock="Top" LastChildFill="True" Background="#333">
+                <Button DockPanel.Dock="Right" Template="{StaticResource DownArrowButton}"
+                    Padding="23 0 23 0" Width="65" Height="{StaticResource FunctionItemHeight}"
+                    Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=SelectedPanel}"/>
+                <Label Name="GuideLabel" Content="Drag Function To Here" DockPanel.Dock="Left" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </DockPanel>
+            <ListBox Name="SelectedPanel" DockPanel.Dock="Top"  Height="{StaticResource FunctionItemHeight}"
+                      Style="{StaticResource ListBoxTemplate}" SelectionChanged="OnFunctionSelected"
+                      ItemsSource="{Binding Functions}">
+            </ListBox>
         </DockPanel>
 
-        <WrapPanel  Grid.Row="2" Grid.ColumnSpan="3" FlowDirection="RightToLeft">
-            <CheckBox Margin="5" FlowDirection="LeftToRight" Foreground="White"
-                      Content="show description"
+        <DockPanel  Grid.Row="1" Grid.Column="1" FlowDirection="RightToLeft">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <CheckBox Name="ShowDescription" Style="{StaticResource CheckBoxTemplate}"
+                      Content="Show Description"
                       Checked="OnShowDescription" Unchecked="OnHideDescription"/>
-            <CheckBox Margin="5" FlowDirection="LeftToRight" Foreground="White"
-                      Content="full path" IsChecked="{Binding FullDisplay, Mode=TwoWay}"/>
-        </WrapPanel>
+                <CheckBox Name="ShowPath" Style="{StaticResource CheckBoxTemplate}" Content="Full Path"/>
+                <CheckBox Name="Overwrite" Style="{StaticResource CheckBoxTemplate}"
+                      Content="Overwrite" IsChecked="{Binding IsOverWrite, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal">
+                <RadioButton Style="{StaticResource PathTypeRadioButton}" Content="Files Only" IsChecked="{Binding IsFilesOnly,Mode=TwoWay}"/>
+                <RadioButton Style="{StaticResource PathTypeRadioButton}" Content="Folder Only" IsChecked="{Binding IsFoldersOnly,Mode=TwoWay}"/>
+                <RadioButton Style="{StaticResource PathTypeRadioButton}" Content="All" IsChecked="{Binding IsFilesAndFolders,Mode=TwoWay}"/>
+            </StackPanel>
+        </DockPanel>
 
         <DataGrid Name="FilesDataGrid" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="5"
                   AutoGenerateColumns="False" IsReadOnly="True"
-                  ItemsSource="{Binding Items}">
+                  ItemsSource="{Binding ItemDisplayer}">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGrid}">
                     <Setter Property="Background" Value="Transparent"/>
@@ -69,6 +169,14 @@
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Height" Value="40"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsGood}" Value="True">
+                            <Setter Property="Background" Value="Green"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsGood}" Value="False">
+                            <Setter Property="Background" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#444"/>
@@ -79,13 +187,25 @@
                     <Setter Property="Padding" Value="10"/>
                 </Style>
                 <Style TargetType="DataGridCell">
-                    <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Width="4*" Binding="{Binding TargetDisplay}" ElementStyle="{StaticResource {x:Type TextBlock}}"/>
-                <DataGridTextColumn Header="Preview" Width="4*" Binding="{Binding ResultDisplay}" ElementStyle="{StaticResource {x:Type TextBlock}}"/>
+                <DataGridTemplateColumn Header="Name" Width="4*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{StaticResource PathTextBlock}" DataContext="{Binding Target}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Preview" Width="4*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{StaticResource PathTextBlock}" DataContext="{Binding Result}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Description" Width="2*" ElementStyle="{StaticResource {x:Type TextBlock}}"
                                     x:Name="colDescription" Visibility="Collapsed"  Binding="{Binding Message}"/>
             </DataGrid.Columns>
