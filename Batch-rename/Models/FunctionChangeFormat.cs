@@ -17,6 +17,15 @@ namespace BatchRename.Models
             return src.ChangeFormat(format);
         }
 
+        public override BatchFunction Clone()
+        {
+            return new FunctionChangeFormat()
+            {
+                format = this.format,
+                Name = this.Name
+            };
+        }
+
         public StringFormat Format
         {
             get => format;

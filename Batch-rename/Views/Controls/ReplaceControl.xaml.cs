@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BatchRename.Models;
+using BatchRename.Shared;
 namespace BatchRename.Views.Controls
 {
     /// <summary>
@@ -25,7 +26,6 @@ namespace BatchRename.Views.Controls
             DataContext = ViewModel;
             InitializeComponent();
         }
-
 
         private void OnShowResult(object sender, RoutedEventArgs e)
         {
@@ -40,6 +40,6 @@ namespace BatchRename.Views.Controls
                 tbResult.IsEnabled = false;
             }
         }
-        public FunctionReplace ViewModel { get; set; } = new FunctionReplace();
+        public FunctionReplace ViewModel { get; private set; } = new FunctionReplace();
     }
 }

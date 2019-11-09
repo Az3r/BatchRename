@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:BatchRename.Views"
              xmlns:cmds="clr-namespace:BatchRename.Commands"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="200">
+             d:DesignHeight="450" d:DesignWidth="250">
     <UserControl.Resources>
         <!--Favorite buttons trigger-->
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="FavoriteTemplate">
@@ -19,12 +19,14 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-
+       
         <Style TargetType="ListBox" BasedOn="{StaticResource FunctionListTemplate}" x:Key="FavoriteFunctionListBox">
-            <Setter Property="ItemTemplate" >
+            <Setter Property="SelectionMode" Value="Extended"/>
+            <EventSetter Event="SelectionChanged" Handler="OnSelectionChanged"/>
+            <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <DockPanel LastChildFill="True">
+                        <DockPanel LastChildFill="True" MouseLeftButtonDown="OnBeginDragging">
                             <Button DockPanel.Dock="Right" Style="{StaticResource FavoriteTemplate}" Width="30" Foreground="Yellow" Click="OnButtonChangeFavorite"/>
                             <Label DockPanel.Dock="Left" Content="{Binding Name}" VerticalAlignment="Center"/>
                         </DockPanel>
@@ -33,6 +35,14 @@
             </Setter>
         </Style>
 
+        <Style TargetType="StackPanel" x:Key="VerticalStackPanel">
+            <Setter Property="Background" Value="#333"/>
+            <Setter Property="LayoutTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="90"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <!--stack panel containing functions-->
         <Style TargetType="StackPanel" x:Key="BackgroundDarkPanel">
             <Setter Property="Background" Value="#333"/>
@@ -40,42 +50,66 @@
     </UserControl.Resources>
     <UserControl.CommandBindings>
         <CommandBinding Command="{x:Static cmds:Commands.ExpandControl}" CanExecute="CanExpandControl" Executed="ExpandedControl"/>
-        <CommandBinding Command="{x:Static cmds:Commands.Create}" CanExecute="CanCreate" Executed="Created"/>
-        <CommandBinding Command="{x:Static cmds:Commands.DeleteFunctions}" CanExecute="CanDelete" Executed="Deleted"/>
+        <CommandBinding Command="{x:Static ApplicationCommands.Properties}" CanExecute="CanOpenProperty" Executed="OpenedProperty"/>
+        <CommandBinding Command="{x:Static ApplicationCommands.New}" CanExecute="CanCreate" Executed="Created"/>
+        <CommandBinding Command="{x:Static ApplicationCommands.Delete}" CanExecute="CanDelete" Executed="Deleted"/>
         <CommandBinding Command="{x:Static cmds:Commands.Refresh}" CanExecute="CanRefresh" Executed="Refreshed"/>
     </UserControl.CommandBindings>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Action Explorer" Style="{StaticResource TitleLabel}"/>
-        <WrapPanel Grid.Row="1" FlowDirection="RightToLeft" VerticalAlignment="Center">
-            <Button Content="Refresh" Command="{x:Static cmds:Commands.Refresh}"/>
-            <Button Content="Delete" Command="{x:Static cmds:Commands.DeleteFunctions}"/>
-            <Button Content="New" Command="{x:Static cmds:Commands.Create}"/>
-        </WrapPanel>
-        <Label Grid.Row="2" Content="Action Explorer" Background="#333"/>
-        <StackPanel Grid.Row="2" Style="{StaticResource BackgroundDarkPanel}">
-            <DockPanel LastChildFill="True">
-                <Button DockPanel.Dock="Right" Template="{StaticResource DownArrowButton}" Width="30"
-                        Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=FavoriteFunctions}"/>
-                <Label Style="{StaticResource IndexLabel}" Content="Favorite"/>
-            </DockPanel>
-            <ListBox Name="FavoriteFunctions" Style="{StaticResource FavoriteFunctionListBox}" Visibility="Visible"
-                          ItemsSource="{Binding FavoriteFunctions}"/>
-            <Border BorderBrush="Gray" BorderThickness="1"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Grid.Column="0" Style="{StaticResource VerticalStackPanel}" Orientation="Horizontal">
+            <Button DockPanel.Dock="Bottom"  Style="{StaticResource TransparentBorderlessButton}"
+                        Content="Action Explorer" Command="{x:Static ApplicationCommands.Properties}" CommandParameter="{Binding ElementName=ActionPanel}">
+            </Button>
+            <Button DockPanel.Dock="Bottom"  Style="{StaticResource TransparentBorderlessButton}"
+                        Content="Template Functions" Command="{x:Static ApplicationCommands.Properties}" CommandParameter="{Binding ElementName=TemplatePanel}">
+            </Button>
         </StackPanel>
-        <StackPanel Grid.Row="3" Style="{StaticResource BackgroundDarkPanel}">
-            <DockPanel LastChildFill="True">
-                <Button DockPanel.Dock="Right" Template="{StaticResource DownArrowButton}" Width="30"
+
+        <StackPanel Grid.Column="1" Name="PropertiesPanel">
+            <StackPanel Name="ActionPanel" Visibility="Visible">
+                <Label Content="Action Explorer" Style="{StaticResource TitleLabel}"/>
+                <WrapPanel FlowDirection="RightToLeft" VerticalAlignment="Center">
+                    <Button Content="Refresh" Command="{x:Static cmds:Commands.Refresh}"/>
+                    <Button Content="Delete" Command="{x:Static ApplicationCommands.Delete}"/>
+                    <Button Content="New" Command="{x:Static ApplicationCommands.New}"/>
+                </WrapPanel>
+                <StackPanel Style="{StaticResource BackgroundDarkPanel}">
+                    <DockPanel LastChildFill="True">
+                        <Button DockPanel.Dock="Right" Template="{StaticResource DownArrowButton}" Width="30"
+                        Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=FavoriteFunctions}"/>
+                        <Label Style="{StaticResource IndexLabel}" Content="Favorite"/>
+                    </DockPanel>
+                    <ListBox Name="FavoriteFunctions" Style="{StaticResource FavoriteFunctionListBox}" Visibility="Visible" MouseDoubleClick="OnEditing"
+                          ItemsSource="{Binding FavoriteFunctions}"/>
+                    <Border BorderBrush="Gray" BorderThickness="1"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource BackgroundDarkPanel}">
+                    <DockPanel LastChildFill="True">
+                        <Button DockPanel.Dock="Right" Template="{StaticResource DownArrowButton}" Width="30"
                         Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=AllFunctions}"/>
-                <Label Content="All Functions" Style="{StaticResource IndexLabel}"/>
-            </DockPanel>
-            <ListBox Name="AllFunctions" Style="{StaticResource FavoriteFunctionListBox}"  Visibility="Collapsed"
+                        <Label Content="All Functions" Style="{StaticResource IndexLabel}"/>
+                    </DockPanel>
+                    <ListBox Name="AllFunctions" Style="{StaticResource FavoriteFunctionListBox}"  Visibility="Collapsed" MouseDoubleClick="OnEditing"
                           ItemsSource="{Binding Functions}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Name="TemplatePanel" Visibility="Collapsed">
+                <Label Content="Template Functions" Style="{StaticResource TitleLabel}"/>
+                <ListBox BorderThickness="0" ItemsSource="{Binding TemplateFunctions}" Style="{StaticResource FunctionListTemplate}"
+                         MouseDoubleClick="OnCreating">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Name}" Margin="5 10 0 10"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

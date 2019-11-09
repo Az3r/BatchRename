@@ -32,14 +32,6 @@ namespace BatchRename.Views
             DataContext = ViewModel;
             InitializeComponent();
         }
-        public Editor(object function) : this()
-        {
-            if (function is BatchFunction batch) 
-            {
-                FunctionType.SelectedItem = batch.Name;
-            }
-            else throw new ArgumentException("function is not BatchFunction");
-        }
         /*
          * Command events
          */
@@ -50,7 +42,6 @@ namespace BatchRename.Views
         }
         private void Submitted(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("Submitting!");
             Control ctrl = FunctionDisplayer.Child as Control;
             ViewModel.ApplySetting(ctrl.DataContext);
             Close();
@@ -78,6 +69,15 @@ namespace BatchRename.Views
         {
             Close();
         }
+
+        /*
+         * Public Methods
+         */
+        public void SetDisplayFunction(BatchFunction function)
+        {
+            FunctionDisplayer.Child = ViewModel.CreateControl(function);
+        }
+
         public EditorViewModel ViewModel { get; private set; } = new EditorViewModel();
         private Cursor origin;
     }

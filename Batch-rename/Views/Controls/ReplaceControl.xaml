@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:BatchRename.Views.Controls"
              xmlns:wpf="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="800">
+             d:DesignHeight="250" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -46,12 +46,10 @@
             <TextBox Style="{StaticResource CenterTextBox}" Text="{Binding NewValue,Mode=TwoWay}"/>
         </DockPanel>
         <DockPanel Grid.Row="4" Grid.ColumnSpan="10" Style="{StaticResource 40HeightDockPanel}">
-            <Border DockPanel.Dock="Top" Background="#343434" Height="30">
-                <TextBlock Style="{StaticResource CenterTextBlock}" Text="Test Function" FontSize="13"/>
-            </Border>
+            <CheckBox DockPanel.Dock="Top" Content="Favorite" Margin="20 0 0 0" Padding="10 0 0 0" IsChecked="{Binding IsFavorite}" Foreground="White"/>
             <DockPanel Style="{StaticResource 40HeightDockPanel}">
                 <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">
-                    <TextBlock Style="{StaticResource ItalicTextBlock}" Text="Input:"/>
+                    <TextBlock Style="{StaticResource ItalicTextBlock}" Text="Preview:"/>
                 </Border>
                 <TextBox Name="tbInput" Style="{StaticResource CenterTextBox}" Text="A string to be tested" Width="250"/>
                 <Border DockPanel.Dock="Left" Style="{StaticResource GrayBorder}">

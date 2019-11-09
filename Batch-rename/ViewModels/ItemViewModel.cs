@@ -22,13 +22,18 @@ namespace BatchRename.ViewModels
     {
         public ItemViewModel() 
         {
-            Actions.Add(new BatchFunction());
+            SelectedFunctions.Add(new BatchFunction());
         }
 
         /* 
          * Private Helpers
          */
-         private void AddItems(string[] collection)
+
+
+        /*
+         * Interfaces
+         */
+        public void AddFiles(string[] collection)
         {
             // must be no duplicate
             foreach (string path in collection)
@@ -40,10 +45,13 @@ namespace BatchRename.ViewModels
                 Items.Add(item);
             }
         }
-
-        /*
-         * Interfaces
-         */
+        public void AddFiles(BatchItem[] collection)
+        {
+            foreach (BatchItem item in collection)
+            {
+                Items.Add(item);
+            }
+        }
         public void AddFileFromExplorer()
         {
             using (OpenFileDialog dialog = new OpenFileDialog()
@@ -55,12 +63,8 @@ namespace BatchRename.ViewModels
             {
 
                 DialogResult result = dialog.ShowDialog();
-                if (result == DialogResult.OK) AddItems(dialog.FileNames);
+                if (result == DialogResult.OK) AddFiles(dialog.FileNames);
             };
-        }
-        public void AddDraggedItems(string[] collection)
-        {
-            AddItems(collection);
         }
         public void RemoveItems(IList collection)
         {
@@ -84,14 +88,8 @@ namespace BatchRename.ViewModels
                 }
             }
         }
-        public BatchFunction[] TemplateFunctions { get; private set; } = new BatchFunction[]
-        {
-            new FunctionChangeFormat(),
-            new FunctionMove(),
-            new FunctionReplace(),
-        };
         public ObservableHashSet<BatchItem> Items { get; set; } = new ObservableHashSet<BatchItem>();
-        public ObservableCollection<BatchFunction> Actions { get; set; } = new ObservableCollection<BatchFunction>();
+        public ObservableCollection<BatchFunction> SelectedFunctions { get; set; } = new ObservableCollection<BatchFunction>();
 
         private bool mFullDisplay;
     }

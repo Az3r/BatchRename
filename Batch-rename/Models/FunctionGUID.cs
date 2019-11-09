@@ -12,7 +12,6 @@ namespace BatchRename.Models
         {
             Name = "GUID";
         }
-
         public override string GetString(string src)
         {
             return StringExtension.GetGUID();

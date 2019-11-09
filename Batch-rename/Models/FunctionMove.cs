@@ -14,6 +14,15 @@ namespace BatchRename.Models
             Name = "Move";
         }
 
+        public override BatchFunction Clone()
+        {
+            return new FunctionMove()
+            {
+                IsFavorite = IsFavorite,
+                Name = Name,
+                args = new int[] { FirstFrom, FirstTo, Count },
+            };
+        }
         public override string GetString(string src)
         {
             return src.Move(FirstFrom, FirstTo, Count);

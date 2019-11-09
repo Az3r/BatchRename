@@ -6,8 +6,10 @@
              xmlns:local="clr-namespace:BatchRename.Views"
              xmlns:cmds="clr-namespace:BatchRename.Commands"
              mc:Ignorable="d" 
-             AllowDrop="True"
-             d:DesignHeight="450" d:DesignWidth="800">
+             AllowDrop="True" Background="{StaticResource BackGroundColor}"
+             d:DesignHeight="450" d:DesignWidth="800"
+             DragDrop.Drop="OnDropping"
+>
     <UserControl.Resources>
 
     </UserControl.Resources>
@@ -17,7 +19,7 @@
         <CommandBinding Command="{x:Static cmds:Commands.ExecuteAllFiles}" CanExecute="CanExecuteAllFiles" Executed="ExecutedAllFiles"/>
         <CommandBinding Command="{x:Static cmds:Commands.ExecuteSelectedFiles}" CanExecute="CanExecuteSelectedFiles" Executed="ExecutedSelectedFiles"/>
     </UserControl.CommandBindings>
-    <Grid AllowDrop="True" DragDrop.Drop="OnObjectsDragged">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -41,23 +43,22 @@
 
         <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
                    LastChildFill="False">
-            <ComboBox DockPanel.Dock="Left" Padding="10" Width="200"
+            <ComboBox Name="SelectedFunctions" DockPanel.Dock="Left" Style="{StaticResource DarkComboBox}"
                       IsEditable="False" IsReadOnly="True"
-                      ItemsSource="{Binding Actions}">
+                      ItemsSource="{Binding SelectedFunctions}">
             </ComboBox>
         </DockPanel>
 
         <WrapPanel  Grid.Row="2" Grid.ColumnSpan="3" FlowDirection="RightToLeft">
-            <CheckBox Margin="5" FlowDirection="LeftToRight"
+            <CheckBox Margin="5" FlowDirection="LeftToRight" Foreground="White"
                       Content="show description"
                       Checked="OnShowDescription" Unchecked="OnHideDescription"/>
-            <CheckBox Margin="5" FlowDirection="LeftToRight" Background="White"
+            <CheckBox Margin="5" FlowDirection="LeftToRight" Foreground="White"
                       Content="full path" IsChecked="{Binding FullDisplay, Mode=TwoWay}"/>
         </WrapPanel>
 
         <DataGrid Name="FilesDataGrid" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="5"
                   AutoGenerateColumns="False" IsReadOnly="True"
-                  DragDrop.Drop="AddDraggedItem"
                   ItemsSource="{Binding Items}">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGrid}">

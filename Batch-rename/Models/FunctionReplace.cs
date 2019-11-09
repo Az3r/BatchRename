@@ -12,6 +12,16 @@ namespace BatchRename.Models
         {
             Name = "Replace";
         }
+
+        public override BatchFunction Clone()
+        {
+            return new FunctionReplace()
+            {
+                args = new string[] { OldValue, NewValue },
+                Name = Name,
+                IsFavorite = IsFavorite
+            };
+        }
         public override string GetString(string src)
         {
             return src.Replace(OldValue, NewValue);

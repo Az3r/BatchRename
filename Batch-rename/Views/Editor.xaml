@@ -8,7 +8,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
-        Title="Editor" Height="450" Width="700" MouseLeftButtonDown="OnDragging" MouseLeftButtonUp="OnDragged">
+        Title="Editor" Height="500" Width="700" MouseLeftButtonDown="OnDragging" MouseLeftButtonUp="OnDragged">
 
     <Window.Resources>
         <sys:Double x:Key="TextWidth">100</sys:Double>
@@ -63,12 +63,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" LastChildFill="True">
-            <TextBlock DockPanel.Dock="Left" Style="{StaticResource TextBlockTemplate}"
-                    Text="Action Name:"/>
-            <TextBox Name="tbActionName" Style="{StaticResource TextBoxTempalte}"
-                     Text="{Binding Name, Mode=TwoWay}"/>
-        </DockPanel>
         <StackPanel Name="stkActionSelection" Grid.Row="1" Margin="0 5 0 5">
             <WrapPanel>
                 <TextBlock Style="{StaticResource TextBlockTemplate}"
@@ -76,8 +70,6 @@
                 <ComboBox Name="FunctionType" Style="{StaticResource DarkComboBox}"
                         ItemsSource="{Binding FunctionNames}" SelectionChanged="OnChangedControl">
                 </ComboBox>
-                <CheckBox Content="Favorite" IsChecked="{Binding IsFavorite, Mode=TwoWay}"
-                          Margin="20 0 0 0" Foreground="White" VerticalAlignment="Center"/>
             </WrapPanel>
         </StackPanel>
 

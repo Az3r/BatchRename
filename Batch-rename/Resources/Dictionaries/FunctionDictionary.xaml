@@ -18,7 +18,7 @@
     </Style>
     
     <Style TargetType="Border" x:Key="GrayBorder">
-        <Setter Property="Background" Value="{StaticResource DarkToGrayGradient}"/>
+        <Setter Property="Background" Value="#454545"/>
         <Setter Property="MinWidth" Value="100"/>
     </Style>
 
@@ -34,6 +34,7 @@
     </Style>
 
     <Style TargetType="DockPanel" x:Key="40HeightDockPanel">
+        <Setter Property="Margin" Value="0 10 0 0"/>
         <Setter Property="MinHeight" Value="40"/>
         <Setter Property="LastChildFill" Value="True"/>
     </Style>

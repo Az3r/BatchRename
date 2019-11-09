@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BatchRename.Models;
+using BatchRename.ViewModels;
+using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using BatchRename.ViewModels;
-using System.IO;
-using BatchRename.Commands;
-using BatchRename.Models;
 
 namespace BatchRename.Views.Controls
 {
@@ -86,28 +73,22 @@ namespace BatchRename.Views.Controls
         {
             colDescription.Visibility = Visibility.Visible;
         }
-
         private void OnHideDescription(object sender, RoutedEventArgs e)
         {
             colDescription.Visibility = Visibility.Collapsed;
         }
-
-        private void AddDraggedItem(object sender, DragEventArgs e)
+        private void OnDropping(object sender, DragEventArgs e)
         {
-            string[] items = (string[])e.Data.GetData(DataFormats.FileDrop);
-            ViewModel.AddDraggedItems(items);
-        }
-        private void AddDraggedActions(object sender, DragEventArgs e)
-        {
-            e.Data.GetData(DataFormats.Serializable);
-        }
-
-        private void OnObjectsDragged(object sender, DragEventArgs e)
-        {
-            foreach (string format in e.Data.GetFormats())
+            if (e.Data.GetData(DataFormats.FileDrop) is string[] files)
             {
-                Debug.WriteLine($"{nameof(OnObjectsDragged)}: Convertible Formats:");
-                Debug.WriteLine(format);
+                ViewModel.AddFiles(files);
+            }
+            else if(e.Data.GetData(typeof(BatchFunction[])) is BatchFunction[] functions)
+            {
+                foreach (BatchFunction fn in functions)
+                {
+                    ViewModel.SelectedFunctions.Add(fn);
+                }
             }
         }
     }

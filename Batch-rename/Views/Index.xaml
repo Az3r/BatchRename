@@ -8,56 +8,16 @@
         mc:Ignorable="d"
         Title="Batch Rename" Height="600" Width="1000">
 
-    <Window.Resources>
-        <Style TargetType="StackPanel" x:Key="VerticalStackPanel">
-            <Setter Property="Background" Value="#333"/>
-            <Setter Property="LayoutTransform">
-                <Setter.Value>
-                    <RotateTransform Angle="90"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-    <Window.CommandBindings>
-        <CommandBinding Command="{x:Static cmds:Commands.ExpandControl}" CanExecute="CanExpand" Executed="Expanded"/>
-    </Window.CommandBindings>
     <Grid Background="{StaticResource BackGroundColor}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Name="ActionCol" Width="3*"/>
-            <ColumnDefinition Name="SplitterCol" Width="5"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="7"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="8*"/>
-        </Grid.RowDefinitions>
 
-        <!--Action section-->
-        <StackPanel Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource VerticalStackPanel}" Orientation="Horizontal">
-            <Button DockPanel.Dock="Bottom"  Style="{StaticResource TransparentBorderlessButton}"
-                        Content="Action Explorer" Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=ActionPanel}">
-            </Button>
-            <Button DockPanel.Dock="Bottom"  Style="{StaticResource TransparentBorderlessButton}"
-                        Content="Template Functions" Command="{x:Static cmds:Commands.ExpandControl}" CommandParameter="{Binding ElementName=TemplatePanel}">
-            </Button>
-        </StackPanel>
-        <GridSplitter Grid.Column="2" Grid.RowSpan="2" Background="#999999" HorizontalAlignment="Stretch"/>
+        <local:ActionExplorerControl />
 
-        <StackPanel Name="TabPanel" Grid.Column="1" Grid.RowSpan="2">
-            <local:ActionExplorerControl x:Name="ActionPanel" Visibility="Collapsed"/>
-            <StackPanel Name="TemplatePanel" Visibility="Visible">
-                <Label Content="Template Functions" Style="{StaticResource TitleLabel}"/>
-                <ListBox BorderThickness="0" ItemsSource="{Binding TemplateFunctions}" Style="{StaticResource FunctionListTemplate}"
-                         MouseDoubleClick="OnOpenEditor">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Label Content="{Binding Name}" Margin="5 10 0 10"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-        </StackPanel>
-        <local:ItemDisplayControl Grid.Column="3" Grid.Row="0" Grid.RowSpan="2"/>
+
+        <local:ItemDisplayControl Grid.Column="2"/>
     </Grid>
 </Window>

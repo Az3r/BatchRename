@@ -33,6 +33,8 @@ namespace BatchRename.Models
             info.AddValue(nameof(Name), Name);
         }
 
+        public virtual BatchFunction Clone() { return new BatchFunction() { Name = this.Name, IsFavorite = this.IsFavorite }; }
+
         public string Name
         {
             get => mName;
@@ -52,7 +54,7 @@ namespace BatchRename.Models
             }
         }
 
-        private string mName = string.Empty;
+        protected string mName = string.Empty;
         private bool mFavorite = false;
     }
 }
